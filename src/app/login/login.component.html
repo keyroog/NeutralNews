@@ -1,0 +1,36 @@
+<div class="login-wrapper">
+  <div class="box-form">
+    <div class="left">
+      <div class="overlay">
+      <h1>Neutral News</h1>
+      <p>Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
+      </div>
+    </div>
+    
+    
+      <div class="right">
+      <h5>Login</h5>
+      <p>Non hai un account? <a href="#">Crealo subito,</a> ci vuole meno di 1 minuto!</p>
+      <div class="inputs">
+        <input type="text" [(ngModel)]="username" placeholder="user name">
+        <br>
+        <input type="password" [(ngModel)]="password" placeholder="password">
+      </div>
+        
+        <br><br>
+        
+      <div class="remember-me--forget-password">
+          <!-- Angular -->
+    <label>
+      <input type="checkbox" name="item" checked/>
+      <span class="text-checkbox">Remember me</span>
+    </label>
+      </div>
+        
+        <br>
+        <button (click)="loginFunction()">Login</button>
+    </div>
+    
+  </div>
+</div>
+<!-- partial -->
