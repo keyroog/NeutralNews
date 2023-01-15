@@ -1,9 +1,9 @@
 const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 // Enter your storage account name and shared key
-const account = "cloudprojectloginstorage";
-const accountKey = "cVf/x6BIzL4HPm1j0bJ8WGtzVkk1XIhmMXqATupo0V0lEfceLKwjyU8nQ+u0Zwf2EcGaLWP/XKWE+AStYWCOyg==";
-const tableName = "login";
+const account = "projectuserstorage";
+const accountKey = "oYyBRLCC3zQFpou7aFQgTIkPcD5Ft2TVQOqZLPi7q1hfHq3DNBmoZi/bLRN6oW4f2JUfuvMvbL03+AStW4m/nQ==";
+const tableName = "users";
 
 // Use AzureNamedKeyCredential with storage account and account key
 // AzureNamedKeyCredential is only available in Node.js runtime, not in browsers
@@ -16,16 +16,13 @@ module.exports = async function (context, req) {
     let responseMessage= "";
     let username = context.req.body.username;
     let password = context.req.body.password;
-    let user;
-    try {
-        user = await client.getEntity(username, password);
-    } catch (error) {
+    let result = await client.getEntity(username, password)
+    .catch((error) => {
         responseMessage = "false";
+    });
+    if(result!==null){
+        responseMessage = {partitionKey : result.partitionKey, preferiti:result.preferiti}
     }
-    if(user!=null){
-        responseMessage = user.preferiti
-    }
-
     context.res = {
         body: responseMessage
     };

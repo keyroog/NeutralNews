@@ -10,9 +10,10 @@
     
       <div class="right">
       <h5>Login</h5>
-      <p>Non hai un account? <a href="#">Crealo subito,</a> ci vuole meno di 1 minuto!</p>
+      <p>Non hai un account? <a href="signup">Crealo subito,</a> ci vuole meno di 1 minuto!</p>
       <div class="inputs">
         <input type="text" [(ngModel)]="username" placeholder="user name">
+
         <br>
         <input type="password" [(ngModel)]="password" placeholder="password">
       </div>
@@ -28,7 +29,7 @@
       </div>
         
         <br>
-        <button (click)="loginFunction()">Login</button>
+        <button (click)="login()">Login</button>
     </div>
     
   </div>

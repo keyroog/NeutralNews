@@ -16,7 +16,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  loginFunction() {
+  login() {
     this.loginStorageService.checkLogin(this.username, this.password);
   }
 

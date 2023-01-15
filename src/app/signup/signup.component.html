@@ -1,0 +1,44 @@
+<div class="login-wrapper">
+  <div class="box-form">
+    <div class="left">
+      <div class="overlay">
+      <h1>Neutral News</h1>
+      <p>Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
+      </div>
+    </div>
+    
+    
+      <div class="right">
+      <h5>Registrazione</h5>
+      <p>Nessuna e-mail noiosa da confermare, inserisci username e password e parti subito!</p>
+      <div class="inputs">
+        <form [formGroup]="userSignup">
+          <input type="text" class="mainInput" placeholder="username" formControlName="username">
+          <br>
+          <input type="password" class="mainInput" placeholder="password" formControlName="password">
+          <div class="preferiti" formArrayName="preferiti">  
+            <div class="preferiti-row1">
+              <p style="margin-right: 20px;">Aggiungi Preferiti: (Max 3)</p>
+              <button type="button" (click)="addPreferito()" class="btnAddMore"> +</button>
+            </div>
+            <div class="inputPreferitiContainer">
+              <div *ngFor="let preferito of preferiti().controls; let i=index" [formGroupName]="i">  
+                    <input type="text" class="preferitoInput" formControlName="value" placeholder="parola">  
+                    <button (click)="removePreferito(i)" class="btn-danger">X</button>  
+              </div>
+            </div>
+          </div> 
+        </form>
+      </div>
+      <div class="form-footer">
+        <div>
+          <button class="formSubmit" type="submit" [disabled]="!userSignup.valid" (click)="signup()">Registrati</button>
+        </div>
+        <div style="margin-top: 10px;">
+          <p>Possiedi gia un account? <a href="login">Accedi subito,</a> non aspettare altro tempo</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- partial -->
