@@ -19,7 +19,7 @@
           <div class="preferiti" formArrayName="preferiti">  
             <div class="preferiti-row1">
               <p style="margin-right: 20px;">Aggiungi Preferiti: (Max 3)</p>
-              <button type="button" (click)="addPreferito()" class="btnAddMore"> +</button>
+              <button type="button" (click)="addPreferito()" class="btn-add"><span>+</span></button>
             </div>
             <div class="inputPreferitiContainer">
               <div *ngFor="let preferito of preferiti().controls; let i=index" [formGroupName]="i">  
@@ -32,7 +32,7 @@
       </div>
       <div class="form-footer">
         <div>
-          <button class="formSubmit" type="submit" [disabled]="!userSignup.valid" (click)="signup()">Registrati</button>
+          <button class="btn" type="submit" [disabled]="!userSignup.valid" (click)="signup()"><span>Registrati</span></button>
         </div>
         <div style="margin-top: 10px;">
           <p>Possiedi gia un account? <a href="login">Accedi subito,</a> non aspettare altro tempo</p>

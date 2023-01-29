@@ -1,35 +1,30 @@
-<div class="login-wrapper">
-  <div class="box-form">
-    <div class="left">
-      <div class="overlay">
-      <h1>Neutral News</h1>
-      <p>Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
-      </div>
+<div class="main-container">
+  <div class="row main-row">
+    <div class="col left">
+      <h1 class="h1 title"><span>Neutral</span></h1>
+      <p class="h1 title">News</p>
+      <p class="h3 subtitle">Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
     </div>
     
     
-      <div class="right">
-      <h5>Login</h5>
-      <p>Non hai un account? <a href="signup">Crealo subito,</a> ci vuole meno di 1 minuto!</p>
-      <div class="inputs">
-        <input type="text" [(ngModel)]="username" placeholder="user name">
+      <div class="col right">
+      <h1>Login</h1>
+      <p>Non hai un account? <a href="signup">Crealo subito!</a> ci vuole meno di 1 minuto!</p>
+      <div class="input-group mb-3 mt-3">
+        <input type="text" [(ngModel)]="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+      </div>
+      <div class="input-group mb-3">
+        <input type="password" [(ngModel)]="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+        <label class="form-check-label" for="flexCheckDefault">
+          Remember Me
+        </label>
+      </div>
+      <br>
+      <button class="btn btn-primary" (click)="login()">Login <i class="bi bi-0-circle"></i></button>
 
-        <br>
-        <input type="password" [(ngModel)]="password" placeholder="password">
-      </div>
-        
-        <br><br>
-        
-      <div class="remember-me--forget-password">
-          <!-- Angular -->
-    <label>
-      <input type="checkbox" name="item" checked/>
-      <span class="text-checkbox">Remember me</span>
-    </label>
-      </div>
-        
-        <br>
-        <button (click)="login()">Login</button>
     </div>
     
   </div>
