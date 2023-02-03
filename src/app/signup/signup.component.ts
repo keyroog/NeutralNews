@@ -21,14 +21,14 @@ export class SignupComponent implements OnInit {
   signUp!:ISignUp;
   username = new FormControl('');
 
-  preferiti() : FormArray {  
-    return this.userSignup.get("preferiti") as FormArray  
+  preferiti() : FormArray {
+    return this.userSignup.get("preferiti") as FormArray
   }
 
-  newPreferito(): FormGroup {  
+  newPreferito(): FormGroup {
     return this.fb.group({
       value : ''
-    })  
+    })
   }
 
   addPreferito() {
@@ -36,8 +36,8 @@ export class SignupComponent implements OnInit {
       this.preferiti().push(this.newPreferito());
   }
 
-  removePreferito(i:number) {  
-    this.preferiti().removeAt(i);  
+  removePreferito(i:number) {
+    this.preferiti().removeAt(i);
   }
 
 
@@ -70,11 +70,11 @@ export class SignupComponent implements OnInit {
   }
 
   constructor(private fb:FormBuilder,private signupService : SignupStorageService) {
-    this.userSignup = this.fb.group({  
+    this.userSignup = this.fb.group({
       username: '',
       password: '',
       preferiti: this.fb.array([]),
-    });  
+    });
    }
 
   ngOnInit(): void {
