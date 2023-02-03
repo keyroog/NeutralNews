@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
   }
 
   addPreferito() {
-    if(this.preferiti().length<=2)
+    if(this.preferiti().length<=1)
       this.preferiti().push(this.newPreferito());
   }
 

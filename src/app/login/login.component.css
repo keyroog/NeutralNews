@@ -15,16 +15,35 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 50px;
+  align-items: center;
+}
+
+.form-group{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.right-wrapper{
+  width:80%;
+  display: flex;
+  flex-direction: column;
 }
 
 .title{
   font-size: 8vmax;
   line-height: 1;
   font-weight: 900;
+  margin-bottom: 30px;
 }
 
-.title-main{
-  margin-bottom:20px;
+.login-typography{
+  text-align: center;
+  font-size: 4vmax;
+  font-weight: 900;
+  margin-bottom: 50px;
 }
 
 .title span{
@@ -34,11 +53,26 @@
   padding:10px;
 }
 
+.btn-login{
+  float:right;
+  width: 100px;
+  height: 50px;
+}
+
 .subtitle{
   padding-top:10px;
   border-top:2px solid white;
 }
 
-.right{
-  padding:50px
+@media screen and (max-width: 992px) {
+  .right-wrapper{
+    width: 100%;
+  }
+  .right{
+    padding:0;
+  }
+  .left{
+    padding: 10px;
+    text-align: center;
+  }
 }

@@ -1,42 +1,49 @@
-<div class="login-wrapper">
-  <div class="box-form">
-    <div class="left">
-      <div class="overlay">
-      <h1>Neutral News</h1>
-      <p>Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
-      </div>
+<div class="main-container">
+  <div class="row main-row">
+    <div class="col left">
+      <h1 class="h1 title"><span>Neutral</span></h1>
+      <p class="h1 title">News</p>
+      <p class="h3 subtitle">Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
     </div>
     
     
-      <div class="right">
-      <h5>Registrazione</h5>
-      <p>Nessuna e-mail noiosa da confermare, inserisci username e password e parti subito!</p>
-      <div class="inputs">
-        <form [formGroup]="userSignup">
-          <input type="text" class="mainInput" placeholder="username" formControlName="username">
-          <br>
-          <input type="password" class="mainInput" placeholder="password" formControlName="password">
-          <div class="preferiti" formArrayName="preferiti">  
-            <div class="preferiti-row1">
-              <p style="margin-right: 20px;">Aggiungi Preferiti: (Max 3)</p>
-              <button type="button" (click)="addPreferito()" class="btn-add"><span>+</span></button>
-            </div>
-            <div class="inputPreferitiContainer">
-              <div *ngFor="let preferito of preferiti().controls; let i=index" [formGroupName]="i">  
-                    <input type="text" class="preferitoInput" formControlName="value" placeholder="parola">  
-                    <button (click)="removePreferito(i)" class="btn-danger">X</button>  
+      <div class="col right">
+        <div class="right-wrapper container">
+          <h1 class="signup-typography">Registrazione</h1>
+          <p class="description">Nessuna e-mail da confermare, inserisci Username e Password e parti subito! </p>
+          <div class="inputs">
+            <form [formGroup]="userSignup">
+              <div class="input-group mb-4 mt-3 flex">
+                <input type="text" class="form-control" placeholder="Username" formControlName="username">
               </div>
-            </div>
-          </div> 
-        </form>
-      </div>
-      <div class="form-footer">
+              <div class="input-group mb-4">
+                <input type="password" class="form-control" placeholder="Password" formControlName="password">
+              </div>
+              <br>
+              <div class="preferiti" formArrayName="preferiti">  
+                <div class="preferiti-row1 mb-4">
+                  <p style="margin-right: 20px;">Aggiungi Preferiti: (Min 1 - Max 3)</p>
+                  <button type="button" (click)="addPreferito()" class="btn btn-primary btn-add"><i class="bi bi-plus-circle"></i></button>
+                </div>
+                <div class="inputPreferitiContainer">
+                  <div class="input-group mb-4">
+                    <input type="text" class="form-control" formControlName="value" placeholder="Parola">
+                  </div>
+                  <div *ngFor="let preferito of preferiti().controls; let i=index" [formGroupName]="i" class="single-input-container">
+                    <div class="input-group mb-4">
+                      <input type="text" class="form-control" formControlName="value" placeholder="Parola">  
+                      <button (click)="removePreferito(i)" class="btn btn-primary btn-delete"><i class="bi bi-x-circle"></i></button>  
+                    </div>
+                  </div>
+                </div>
+              </div> 
+            </form>
+        </div>
+        <br>
         <div>
-          <button class="btn" type="submit" [disabled]="!userSignup.valid" (click)="signup()"><span>Registrati</span></button>
+          <button class="btn btn-primary btn-signup" type="submit" [disabled]="!userSignup.valid" (click)="signup()"><span>Registrati</span></button>
         </div>
-        <div style="margin-top: 10px;">
-          <p>Possiedi gia un account? <a href="login">Accedi subito,</a> non aspettare altro tempo</p>
-        </div>
+        <div class="last-typo"><p>Possiedi gia un account? <a href="login">Accedi subito,</a> non aspettare altro tempo!</p></div>
       </div>
     </div>
   </div>
