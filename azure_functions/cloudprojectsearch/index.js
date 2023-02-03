@@ -1,8 +1,8 @@
 const https = require('https')
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
-const client = new TextAnalyticsClient("https://cloudprojectsentiment.cognitiveservices.azure.com/", new AzureKeyCredential("8f61c5092e2d4462a46eb06e6cf8b50f"));
+const client = new TextAnalyticsClient("https://cloudprojectsentiment.cognitiveservices.azure.com/", new AzureKeyCredential(""));
 
-let subscriptionKey = '47e9ce89166a447aa6973940f845ea2e';
+let subscriptionKey = '';
 let host = 'api.bing.microsoft.com';
 let path = '/v7.0/news/search';
 let term = 'Microsoft';

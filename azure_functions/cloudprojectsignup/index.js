@@ -1,7 +1,7 @@
 const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 const account = "projectuserstorage";
-const accountKey = "oYyBRLCC3zQFpou7aFQgTIkPcD5Ft2TVQOqZLPi7q1hfHq3DNBmoZi/bLRN6oW4f2JUfuvMvbL03+AStW4m/nQ==";
+const accountKey = "";
 const tableName = "users";
 const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
