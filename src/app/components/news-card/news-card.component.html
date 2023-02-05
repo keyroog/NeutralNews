@@ -1,0 +1,18 @@
+<div class="wrapper">
+<div class="card w-75 mb-3">
+  <div class="card-body">
+    <h5 class="card-title">{{news.name}}</h5>
+    <p class="card-text">{{news.description}}</p>
+    <a [href]="news.url" class="btn btn-primary">Scopri di più</a>
+  </div>
+  <div class="card-footer cardFooter">
+    <p class="card-text"><small class="text-muted">{{news.date | date}}</small></p>
+    <p class="card-text"><small class="text-muted">Pubblicato da: {{news.provider.name}}</small></p>
+  </div>
+</div>
+<div class="sentiment-container">
+  {{news.sentiment}}
+</div>
+</div>
+<hr class="solid">
+

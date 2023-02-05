@@ -37,6 +37,9 @@
 }
 
 hr.solid {
-  border-top: 3px solid #bbb;
   width: 100%;
+}
+
+.box-content{
+  overflow: scroll;
 }

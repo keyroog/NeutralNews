@@ -12,7 +12,7 @@ export class LoginStorageService {
 
   constructor(
     private http: HttpClient,
-    private router : Router, 
+    private router : Router,
     private userService: UserService
   ) { }
 

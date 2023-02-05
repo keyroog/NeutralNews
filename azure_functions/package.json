@@ -7,6 +7,7 @@
     "test": "echo \"No tests yet...\""
   },
   "dependencies": {
+    "@azure/ai-text-analytics": "^5.1.0",
     "@azure/cognitiveservices-newssearch": "^3.0.1",
     "@azure/cognitiveservices-websearch": "^3.0.1",
     "@azure/data-tables": "^13.2.1",

@@ -1,0 +1,19 @@
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card img{
+  object-fit: cover;
+}
+
+.wrapper{
+  display: flex;
+  justify-content: space-between;
+}
+
+.sentiment-container{
+  display: flex;
+  align-items: center;
+}

@@ -2,7 +2,7 @@ const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 // Enter your storage account name and shared key
 const account = "projectuserstorage";
-const accountKey = "";
+const accountKey = "sd";
 const tableName = "users";
 
 // Use AzureNamedKeyCredential with storage account and account key

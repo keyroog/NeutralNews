@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ISignUp } from 'src/entities';
 import { FormGroup, FormControl, FormArray, FormBuilder } from '@angular/forms'
-import { SignupStorageService } from '../signup-storage.service';
+import { SignupStorageService } from '../../services/signup-storage.service';
 
 @Component({
   selector: 'app-signup',

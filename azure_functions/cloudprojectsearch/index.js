@@ -1,47 +1,77 @@
 const https = require('https')
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
-const client = new TextAnalyticsClient("https://cloudprojectsentiment.cognitiveservices.azure.com/", new AzureKeyCredential(""));
 
-let subscriptionKey = '';
+let cognitiveSubscriptionKey = "15b7df1e1998414cbc9c20a5dd500d53";
+let sentimentHost = "cloudprojectcognitive.cognitiveservices.azure.com";
+let sentimentPath = "/text/analytics/v3.0/sentiment";
+
+let subscriptionKey = 'd1923f2e971c4c60b7a53ba7ea00c72c';
 let host = 'api.bing.microsoft.com';
 let path = '/v7.0/news/search';
 let term = 'Microsoft';
 module.exports = async function (context, req) {
     documents = [];
-    responseMessage = "";
-    https.get({
-        hostname: host,
-        path:     '/v7.0/news/search?q=' + encodeURIComponent(term),
-        headers:  { 'Ocp-Apim-Subscription-Key': subscriptionKey },
-      }, res => {
-        let body = ''
-        res.on('data', part => body += part)
-        res.on('end', () => {
-          for (var header in res.headers) {
-            if (header.startsWith("bingapis-") || header.startsWith("x-msedge-")) {
-              console.log(header + ": " + res.headers[header])
-            }
-          }
-          console.log('\nJSON Response:\n')
-          //console.dir(JSON.parse(body), { colors: false, depth: null })
-          let result = JSON.parse(body);
+    let responseDocuments;
+    let search = context.req.body.search;
+    /*fetch('https://api.bing.microsoft.com/v7.0/news/search?count=10&q='+ encodeURIComponent(search), {
+      method: 'GET',
+      headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Ocp-Apim-Subscription-Key': subscriptionKey,
+          'Accept-Language': 'en-US',
+      }
+      })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+        let i = 0;
+        response.value.forEach(element => {
+          documents.push({"language":'en','id':""+i,'text':element.description.replace(/[^a-zA-Z\s]+/g, '')});
+          i++;
+        });
+        console.log(documents);
+        context.res = { status: 200, body: documents };
+      });*/
+      await fetch('https://api.bing.microsoft.com/v7.0/news/search?count=10&q='+ encodeURIComponent(search)+'&cc=IT', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Ocp-Apim-Subscription-Key': subscriptionKey,
+        }
+        }) // 3
+        .then(response => response.json())
+        .then(response => {
           let i = 0;
-          console.log(result.value.length);
-          result.value.forEach(element => {
-            console.log(i);
-            documents.push(element.description.replace(/[^a-zA-Z\s]+/g, ''));
-            //console.log(documents[i]);
+          responseDocuments = response;
+          response.value.forEach(element => {
+            documents.push({"language":'en','id':""+i,'text':element.description.replace(/[^a-zA-Z\s]+/g, '')});
             i++;
           });
-          console.log(documents);
+        });
+        await fetch('https://cloudprojectcognitive.cognitiveservices.azure.com/text/analytics/v3.0/sentiment', {
+          method: 'POST',
+          headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+              'Ocp-Apim-Subscription-Key': cognitiveSubscriptionKey
+          },
+          body: JSON.stringify({"documents": documents})
+          }) // 3
+          .then(response => response.json())
+          .then(response => context.res.json({'documents':responseDocuments,'sentiment':response}));
+      /*fetch('https://cloudprojectcognitive.cognitiveservices.azure.com/text/analytics/v3.0/sentiment', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Ocp-Apim-Subscription-Key': cognitiveSubscriptionKey
+            },
+            body: JSON.stringify({"documents": documents})
         })
-        res.on('error', e => {
-          console.log('Error: ' + e.message)
-          throw e
-        })
-      });
-    context.res = {
-        // status: 200, /* Defaults to 200 */
-        body: responseMessage
-    };
+        .then(response => response.json())
+        .then(response => {
+          console.log(response);
+          context.res = { status: 200, body: JSON.parse(JSON.stringify(response)) };
+        });*/
 }
