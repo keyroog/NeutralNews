@@ -17,9 +17,12 @@ export class UserService {
 
 
   checkUser(){
-    if(localStorage.getItem("username")){
+    console.log(localStorage.getItem("username"));
+    if(localStorage.getItem("access_token")!=null){
+      console.log("user logged");
       return true;
     }else{
+      console.log("user NOT LOGGED");
       return false;
     }
   }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
+import { UserService } from '../../user.service';
 
 @Component({
   selector: 'app-homepage',
@@ -14,6 +14,10 @@ export class HomepageComponent implements OnInit {
   }
   logout() {
     this.userService.logout();
+  }
+
+  search() {
+    throw new Error('Method not implemented.');
   }
 
 }
