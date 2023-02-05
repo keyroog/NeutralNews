@@ -1,10 +1,10 @@
 const https = require('https')
 
-let cognitiveSubscriptionKey = "15b7df1e1998414cbc9c20a5dd500d53";
+let cognitiveSubscriptionKey = "";
 let sentimentHost = "cloudprojectcognitive.cognitiveservices.azure.com";
 let sentimentPath = "/text/analytics/v3.0/sentiment";
 
-let subscriptionKey = 'd1923f2e971c4c60b7a53ba7ea00c72c';
+let subscriptionKey = '';
 let host = 'api.bing.microsoft.com';
 let path = '/v7.0/news/search';
 let term = 'Microsoft';
@@ -12,26 +12,6 @@ module.exports = async function (context, req) {
     documents = [];
     let responseDocuments;
     let search = context.req.body.search;
-    /*fetch('https://api.bing.microsoft.com/v7.0/news/search?count=10&q='+ encodeURIComponent(search), {
-      method: 'GET',
-      headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-          'Ocp-Apim-Subscription-Key': subscriptionKey,
-          'Accept-Language': 'en-US',
-      }
-      })
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-        let i = 0;
-        response.value.forEach(element => {
-          documents.push({"language":'en','id':""+i,'text':element.description.replace(/[^a-zA-Z\s]+/g, '')});
-          i++;
-        });
-        console.log(documents);
-        context.res = { status: 200, body: documents };
-      });*/
       await fetch('https://api.bing.microsoft.com/v7.0/news/search?count=10&q='+ encodeURIComponent(search)+'&cc=IT', {
         method: 'GET',
         headers: {
@@ -60,18 +40,4 @@ module.exports = async function (context, req) {
           }) // 3
           .then(response => response.json())
           .then(response => context.res.json({'documents':responseDocuments,'sentiment':response}));
-      /*fetch('https://cloudprojectcognitive.cognitiveservices.azure.com/text/analytics/v3.0/sentiment', {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': cognitiveSubscriptionKey
-            },
-            body: JSON.stringify({"documents": documents})
-        })
-        .then(response => response.json())
-        .then(response => {
-          console.log(response);
-          context.res = { status: 200, body: JSON.parse(JSON.stringify(response)) };
-        });*/
 }
