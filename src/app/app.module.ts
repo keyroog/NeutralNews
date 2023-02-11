@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -9,13 +9,16 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { SignupComponent } from './pages/signup/signup.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NewsCardComponent } from './components/news-card/news-card.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { FilterPipe } from './pipes/filter.pipe';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomepageComponent,
     SignupComponent,
-    NewsCardComponent
+    NewsCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -23,8 +26,13 @@ import { NewsCardComponent } from './components/news-card/news-card.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    NgbModule,
   ],
-  providers: [],
+  providers: [
+      {
+        provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true
+      }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

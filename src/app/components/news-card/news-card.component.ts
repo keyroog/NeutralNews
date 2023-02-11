@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { INews } from 'src/app/entities/entities';
 
 @Component({
@@ -8,7 +9,8 @@ import { INews } from 'src/app/entities/entities';
 })
 export class NewsCardComponent implements OnInit {
   @Input() news!: INews;
-  constructor() { }
+  @Input() index!: number;
+  constructor(private router : Router) { }
 
   ngOnInit(): void {
   }

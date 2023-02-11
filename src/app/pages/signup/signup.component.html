@@ -1,49 +1,70 @@
-<div class="main-container">
-  <div class="row main-row">
-    <div class="col left">
-      <h1 class="h1 title"><span>Neutral</span></h1>
-      <p class="h1 title">News</p>
-      <p class="h3 subtitle">Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
+<div class="container-fluid" data-aos="fade-in">
+  <div class="row min-vh-100">
+    <div class="col-lg left bg-primary text-white p-5 text-center d-flex">
+      <div class="row align-items-center justify-content-center">
+        <div class="row">
+          <div class="row">
+            <h1 class="h1 title"><span>Neutral</span></h1>
+          </div>
+          <div class="row"><p class="h1 title">News</p></div>
+          <div class="row">
+            <p class="h3 subtitle">
+              Resta aggiornato su tutto ciò che ti interessa con la possibilità
+              di poter filtrare i contenuti tossici
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    
-      <div class="col right">
-        <div class="right-wrapper container">
-          <h1 class="signup-typography">Registrazione</h1>
-          <p class="description">Nessuna e-mail da confermare, inserisci Username e Password e parti subito! </p>
-          <div class="inputs">
-            <form [formGroup]="userSignup">
-              <div class="input-group mb-4 mt-3 flex">
-                <input type="text" class="form-control" placeholder="Username" formControlName="username">
+
+    <div class="col-lg text-center p-3 d-flex">
+      <div class="row justify-content-center align-items-center">
+        <div class=""><h1 class="signup-typography">Registrazione</h1></div>
+        <div class=""><p class="description">
+          Nessuna e-mail da confermare, inserisci Username e Password e parti
+          subito!
+        </p></div> 
+        <div class=" form-group">
+          <form [formGroup]="userSignup">
+            <div class="form-floating mb-4 mt-2">
+              <input type="text" class="form-control" id="floatingUsername" formControlName="username" placeholder="username">
+              <label for="floatingUsername">Username</label>
+            </div>
+            <div class="form-floating mb-4">
+              <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="password">
+              <label for="floatingPassword">Password</label>
+            </div>
+              <div>
+                <p style="margin-right: 20px">
+                  Seleziona le categorie che Preferisci: Minimo 1
+                </p>
               </div>
-              <div class="input-group mb-4">
-                <input type="password" class="form-control" placeholder="Password" formControlName="password">
+              <div class="row row-cols-2">
+              <div *ngFor="let element of preferitiFormArray.controls; let i = index" class="col mt-2">
+                <label formArrayName="preferiti" class="w-100">
+                    <input type="checkbox" class="btn-check" [id]="i" autocomplete="off" [formControlName]="i">
+                    <label class="btn btn-outline-primary w-100" [htmlFor]="i">{{categorie[i].name}}</label><br>
+                </label>
               </div>
-              <br>
-              <div class="preferiti" formArrayName="preferiti">  
-                <div class="preferiti-row1 mb-4">
-                  <p style="margin-right: 20px;">Aggiungi Preferiti: (Min 1 - Max 3)</p>
-                  <button type="button" (click)="addPreferito()" class="btn btn-primary btn-add"><i class="bi bi-plus-circle"></i></button>
-                </div>
-                <div class="inputPreferitiContainer">
-                  <div class="input-group mb-4">
-                    <input type="text" class="form-control" formControlName="value" placeholder="Parola">
-                  </div>
-                  <div *ngFor="let preferito of preferiti().controls; let i=index" [formGroupName]="i" class="single-input-container">
-                    <div class="input-group mb-4">
-                      <input type="text" class="form-control" formControlName="value" placeholder="Parola">  
-                      <button (click)="removePreferito(i)" class="btn btn-primary btn-delete"><i class="bi bi-x-circle"></i></button>  
-                    </div>
-                  </div>
-                </div>
-              </div> 
-            </form>
+            </div>
+          </form>
         </div>
-        <br>
         <div>
-          <button class="btn btn-primary btn-signup" type="submit" [disabled]="!userSignup.valid" (click)="signup()"><span>Registrati</span></button>
+          <button
+            class="btn btn-primary btn-signup mt-2 mb-1"
+            type="submit"
+            [disabled]="!userSignup.valid && preferitiFormArray.length > 0"
+            (click)="signup()"
+          >
+            <span>Registrati</span>
+          </button>
         </div>
-        <div class="last-typo"><p>Possiedi gia un account? <a href="login">Accedi subito,</a> non aspettare altro tempo!</p></div>
+        <div class="last-typo">
+          <p>
+            Possiedi gia un account? <a href="login">Accedi subito,</a> non
+            aspettare altro tempo!
+          </p>
+        </div>
       </div>
     </div>
   </div>

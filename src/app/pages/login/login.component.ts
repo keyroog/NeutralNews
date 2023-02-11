@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoginStorageService } from '../../services/login-storage.service';
 import { UserService } from '../../services/user.service';
+import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -10,10 +11,12 @@ import { UserService } from '../../services/user.service';
 })
 export class LoginComponent implements OnInit {
 
-  username = ""
-  password = ""
+  userForm = this.fb.group({
+    username: ["", [Validators.required]],
+    password: ["", [Validators.required]],
+  });
 
-  constructor(private loginStorageService : LoginStorageService,private userService : UserService,private router : Router) { }
+  constructor(private loginStorageService : LoginStorageService,private userService : UserService,private router : Router,private fb:FormBuilder) { }
 
   ngOnInit(): void {
     console.log("user logged");
@@ -23,7 +26,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.loginStorageService.checkLogin(this.username, this.password);
+    const usr = this.userForm.value.username;
+    const pass = this.userForm.value.password;
+    console.log(usr,pass);
+    if(usr && pass)
+    this.loginStorageService.checkLogin(usr, pass);
   }
 
 }

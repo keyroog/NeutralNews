@@ -3,6 +3,7 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Router }from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -19,8 +20,9 @@ export class SignupStorageService {
       'username':username,
       'password':password,
       'preferiti':preferiti,
+      'storageAccountKey': environment.storageAccountKey
     }
-    this.http.post('https://projectfunctionservice.azurewebsites.net/api/cloudprojectsignup?code=VGEmUnYhsidoq16IJQzb8FqjXwV001DwpvI-rPxOxmnEAzFu4Z-JAg==',body)
+    this.http.post(environment.signupUrl,body)
       .subscribe(data => {
         console.log(data);
         if(data){

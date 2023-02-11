@@ -5,6 +5,7 @@ import { catchError, retry, map } from 'rxjs/operators';
 import { ILikes } from 'src/entities';
 import { Router }from '@angular/router';
 import { UserService } from './user.service';
+import { environment } from '../../../src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,14 +18,15 @@ export class LoginStorageService {
   ) { }
 
   checkLogin(username: string, password: string) {
-    let body = {'username': username, 'password': password};
-    this.http.post<ILikes | boolean>('https://projectfunctionservice.azurewebsites.net/api/cloudprojectlogin?code=JsAGJ46WbY3k7nHTJEsuDjjUvvcy0HRHq6NIgjUlwY-7AzFu_1bBLg==',body)
+    let body = {'username': username, 'password': password, 'storageAccountKey': environment.storageAccountKey};
+    this.http.post<ILikes | boolean>(environment.loginUrl,body)
       .subscribe(data => {
         if(typeof data === 'boolean'){
           alert("non puoi entrare");
           console.log('booleano');
           console.log(data);
         }else{
+          console.log(data);
           this.userService.storeUserInformation(data);
           this.router.navigate(['home']);
         }

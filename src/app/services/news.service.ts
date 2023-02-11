@@ -8,6 +8,10 @@ export class NewsService {
 
   news: INews[] = [];
 
+  void = false;
+
+  totalEstimatedMatches: number = 0;
+
   storeData(data: any) {
     console.log("store data");
     console.log(data);
@@ -19,15 +23,35 @@ export class NewsService {
         description: element.description,
         provider: {name:element.provider[0].name,type:element.provider[0]._type},
         url: element.url,
+        category : element.category ? element.category : "No category",
         sentiment: data.sentiment.documents[i].sentiment,
-        sentimetScores: data.sentiment.documents[i].confidenceScores,
+        sentimentScores: data.sentiment.documents[i].confidenceScores,
       });
+      console.log(element.category)
+      this.totalEstimatedMatches = data.documents.totalEstimatedMatches;
+      i++;
     });
     console.log(this.news);
   }
 
   getNews(){
     return this.news;
+  }
+
+  clearData(){
+    this.news = [];
+  }
+
+  getEstimated(){
+    return this.totalEstimatedMatches;
+  }
+
+  setVoid(bool: boolean){
+    this.void = bool;
+  }
+
+  getVoid(){
+    return this.void;
   }
 
   constructor() { }

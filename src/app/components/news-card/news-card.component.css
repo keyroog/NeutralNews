@@ -16,4 +16,27 @@
 .sentiment-container{
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.text-green {
+  color: green;
+}
+
+.text-red {
+  color: red;
+}
+
+.text-grey {
+  color: grey;
+}
+
+.score-typo{
+  font-size: 10px;
+}
+
+.emoji-container{
+  border: 1px solid grey;
+  border-radius: 20px;
 }

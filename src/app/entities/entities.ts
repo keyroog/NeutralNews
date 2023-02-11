@@ -4,14 +4,15 @@ export interface INews  {
   name : string
   provider: Provider
   url:string
-  sentiment: Sentiment
-  sentimetScores : SentimentScores
+  sentiment: string
+  sentimentScores : SentimentScores
+  category: string
 }
 
 enum Sentiment{
-  positive = "Positivo",
-  negative = "Negativo",
-  neutral = "Neutro",
+  'positive' = "Positivo",
+  'negative' = "Negativo",
+  'neutral' = "Neutro",
 }
 
 interface SentimentScores{
@@ -30,3 +31,13 @@ interface Thumbnail{
   width: number
   height: number
 }
+
+export const Categorie = [
+  {id: 'ScienceAndTechnology', name : 'Science & Technology'},
+  {id: 'Business', name : 'Business'},
+  {id: 'Entertainment', name : 'Entertainment'},
+  {id: 'Health', name : 'Health'},
+  {id: 'World', name : 'World'},
+  {id: 'Sports', name : 'Sports'},
+  {id: 'Culture', name : 'Culture'},
+]

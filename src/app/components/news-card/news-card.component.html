@@ -1,18 +1,105 @@
 <div class="wrapper">
-<div class="card w-75 mb-3">
-  <div class="card-body">
-    <h5 class="card-title">{{news.name}}</h5>
-    <p class="card-text">{{news.description}}</p>
-    <a [href]="news.url" class="btn btn-primary">Scopri di più</a>
+  <div class="col-1 text-center d-flex align-items-center justify-content-center">
+    <h1>{{ index+1 }}</h1>
   </div>
-  <div class="card-footer cardFooter">
-    <p class="card-text"><small class="text-muted">{{news.date | date}}</small></p>
-    <p class="card-text"><small class="text-muted">Pubblicato da: {{news.provider.name}}</small></p>
+  <div class="col">
+    <div class="card mb-3">
+      <div class="card-header"> 
+        <div class="col"><h3>{{ news.name }}</h3></div>
+        <div class="col">
+          <small class="text-info">
+          Categoria:
+          </small>
+          <span class="text-info">
+            <span *ngIf="news.category === 'Business'">
+              {{news.category}}
+              <i class="bi bi-briefcase"></i>
+            </span>
+            <span *ngIf="news.category === 'Entertainment'">
+              {{news.category}}
+              <i class="bi bi-controller"></i>
+            </span>
+            <span *ngIf="news.category === 'Culture'">
+              {{news.category}}
+              <i class="bi bi-palette"></i>
+            </span>
+            <span *ngIf="news.category === 'ScienceAndTechnology'">
+              {{news.category}}
+              <i class="bi bi-laptop"></i>
+            </span>
+            <span *ngIf="news.category === 'Sports'">
+              {{news.category}}
+              <i class="bi bi-bicycle"></i>
+            </span>
+            <span *ngIf="news.category === 'World'">
+              {{news.category}}
+              <i class="bi bi-globe"></i>
+            </span>
+            <span *ngIf="news.category === 'Education'">
+              {{news.category}}
+              <i class="bi bi-book"></i>
+            </span>
+            <span *ngIf="news.category === 'No category'">
+              Nessuna
+              <i class="bi bi-x-square"></i>
+            </span>
+          </span>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="card-text">{{ news.description }}</p>
+        <a class="btn btn-primary float-end" [href]="news.url" target="_blank">Leggi la notizia</a>
+      </div>
+      <div class="card-footer cardFooter">
+        <p>
+          <small class="text-muted">{{ news.date | date }}</small>
+        </p>
+        <p>
+          <small class="text-muted"
+            >Pubblicato da: {{ news.provider.name }}</small
+          >
+        </p>
+      </div>
+    </div>
+  </div>
+  <div
+    class="col-lg-1 text-center flex-column align-items-center m-3 d-flex align-items-center justify-content-center"
+  >
+    <div class="row">
+      <div *ngIf="news.sentiment === 'positive'">
+        <div>
+          <h3 class="text-center text-green">
+            <strong> <i class="bi bi-emoji-smile"></i></strong>
+          </h3>
+        </div>
+        <div><h5 class="text-green">Positivo</h5></div>
+      </div>
+      <div *ngIf="news.sentiment === 'negative'">
+        <div>
+          <h3 class="text-center text-red">
+            <strong> <i class="bi bi-emoji-frown"></i></strong>
+          </h3>
+        </div>
+        <div><h5 class="text-red">Negativo</h5></div>
+      </div>
+      <div *ngIf="news.sentiment === 'neutral'">
+        <div>
+          <h3 class="text-center text-grey">
+            <strong> <i class="h3 bi bi-emoji-neutral"></i></strong>
+          </h3>
+        </div>
+        <div><h5 class="text-grey">Neutrale</h5></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col text-center text-green score-typo" style="margin: 5px;padding:0">
+        {{ news.sentimentScores.positive | percent }}
+      </div>
+      <div class="col text-center text-grey score-typo" style="margin:5px;padding:0">
+        {{ news.sentimentScores.neutral | percent }}
+      </div>
+      <div class="col text-center text-red score-typo" style="margin:5px;padding:0">
+        {{ news.sentimentScores.negative | percent }}
+      </div>
   </div>
 </div>
-<div class="sentiment-container">
-  {{news.sentiment}}
-</div>
-</div>
-<hr class="solid">
-

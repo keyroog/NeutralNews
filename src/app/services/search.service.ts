@@ -3,21 +3,42 @@ import { HttpClient, HttpResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, map } from 'rxjs/operators';
 import { NewsService } from './news.service';
+import { environment } from 'src/environments/environment';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SearchService {
-
-  constructor(private http: HttpClient,private newsService: NewsService) { }
-
+  constructor(private http: HttpClient, private newsService: NewsService) {}
 
   search(searchInput: String) {
-    let body = {'search': searchInput};
-    this.http.post('https://cloudprojectfunction.azurewebsites.net/api/cloudprojectsearch?',body)
-      .subscribe(data => {
-        console.log(data);
-        this.newsService.storeData(data);
-      }
-    );
+    let body = {
+      search: searchInput,
+      bingSubscriptionKey: environment.bingSubscriptionKey,
+      cognitiveSubscriptionKey: environment.cognitiveSubscriptionKey,
+      cc:'IT',
+      lang: 'it'
+    };
+    this.newsService.clearData();
+    this.newsService.setVoid(false);
+    this.http.post(environment.searchUrl, body).subscribe((data) => {
+      console.log(data);
+      this.newsService.storeData(data);
+    });
+    return false;
+  }
+
+  showMore(searchInput: String, offset: number) {
+    let body = {
+      search: searchInput,
+      bingSubscriptionKey: environment.bingSubscriptionKey,
+      cognitiveSubscriptionKey: environment.cognitiveSubscriptionKey,
+      cc:'IT',
+      lang: 'it',
+      offset: offset ? offset : 0,
+    };
+    this.http.post(environment.searchUrl, body).subscribe((data) => {
+      console.log(data);
+      this.newsService.storeData(data);
+    });
   }
 }

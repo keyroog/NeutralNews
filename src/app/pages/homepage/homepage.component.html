@@ -1,17 +1,151 @@
-<div class="main-container">
-  <div class="container wrapper">
+<div class="main-container bg-primary">
+  <div class="container wrapper" data-aos="fade-in">
     <div class="col-md-12 box-header">
-      <h1 class="h1 title"><span>Neutral News</span></h1>
+      <h1 class="h1 title text-primary"><span>Neutral News</span></h1>
+      <ng-template #content let-c="close" let-d="dismiss">
+        <div class="modal-header text-center">
+          <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="d('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="userForm">
+            <div class="form-floating mb-3">
+              <input type="email" class="form-control" id="floatingInput" [value]="this.userService.getUsername()" formControlName="username" placeholder="name@example.com">
+              <label for="floatingInput">Username</label>
+            </div>
+            <div class="input-group d-flex">
+              <div class="form-floating">
+                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="floatingPassword" [value]="this.userService.getPassword()" formControlName="password" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text h-100">
+                  <i class="fa"
+                  [ngClass]="{
+                    'fa-eye-slash': !fieldTextType,
+                    'fa-eye': fieldTextType
+                  }"
+                  (click)="toggleFieldTextType()"></i>
+                </span>
+             </div>
+            </div>
+            <div *ngFor="let element of preferitiFormArray.controls; let i = index" class="col mt-2">
+              <label formArrayName="preferiti" class="w-100">
+                  <input type="checkbox" class="btn-check" [id]="i" autocomplete="off" [formControlName]="i">
+                  <label class="btn btn-outline-primary w-100" [htmlFor]="i">{{categorie[i].name}}</label><br>
+              </label>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer d-flex justify-content-between">
+          <button
+          type="button"
+          class="btn-primary btn btn-block float-start"
+          (click)="disconnect()"
+        >
+          Disconnetti
+        </button>
+          <button
+            type="button"
+            class="btn-primary btn btn-block"
+            [disabled]="!userForm.valid"
+            (click)="c('Save click')"
+          >
+            Save
+          </button>
+        </div>
+      </ng-template>
+      <div
+        class="d-flex align-items-center justify-content-center flex-column user-button"
+        (click)="open(content)"
+      >
+        <p class="h1 text-primary m-0 p-0">
+          <i class="bi bi-person-circle"></i>
+        </p>
+        <strong class="text-primary m-0 p-0">Utente</strong>
+      </div>
       <div class="input-group rounded search-input">
-        <input type="search" [(ngModel)]="searchInput" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-        <span (click)="search()" class="btn btn-primary border-0" id="search-addon">
+        <input
+          type="search"
+          [(ngModel)]="searchInput"
+          (keyup.enter)="search()"
+          class="form-control"
+          placeholder="Search"
+          aria-label="Search"
+          aria-describedby="search-addon"
+        />
+        <button
+          (click)="search()"
+          class="btn btn-primary border-0"
+          id="search-addon"
+        >
           <i class="bi bi-search"></i>
-        </span>
+        </button>
       </div>
     </div>
-    <hr class="solid">
-    <div class="row box-content">
-      <app-news-card *ngFor="let new of news" [news]="new"></app-news-card>
+    <hr class="solid" />
+    <div *ngIf="news.length >= 1 && !this.loader.getLoading()" class="filter d-flex justify-content-center">
+      <div class="col">
+        <h3 class="text-primary">Totale: {{news.length}}</h3>
+      </div>
+      <div class="col d-flex">
+        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('all')" (click)="setActive('all')"> Tutti</button></div>
+        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('positive')" (click)="setActive('positive')"> Positivi</button></div>
+        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('neutral')" (click)="setActive('neutral')"> Neutrali</button></div>
+        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('negative')" (click)="setActive('negative')"> Negativi</button></div>
+      </div>
+      <div></div>
+    </div>
+    <hr class="solid" *ngIf="news.length >= 1 && !this.loader.getLoading()" />
+    <div
+      class="row box-content"
+      *ngIf="
+        newsService.getVoid() || this.loader.getLoading() || news.length >= 1
+      "
+    >
+    <div *ngIf="newsService.getVoid()" class="text-center">
+      <h1>Ops.. Nessun Risultato, Riprova con un'altra parola!</h1>
+    </div>
+      <div
+        *ngFor="let new of news ; let i = index"
+        class="card-row"
+        style="margin: 0; padding: 0"
+      >
+        <div class="row" *ngIf="this.activeButton === 'all' || new.sentiment === this.activeButton">
+          <app-news-card [news]="new" [index]="i"></app-news-card>
+        </div>
+        <div class="row" *ngIf="this.activeButton === 'all' || new.sentiment === this.activeButton">
+          <hr class="solid" style="display: block" />
+        </div>
+      </div>
+      <div
+        class="text-center"
+        *ngIf="news.length >= 1 && newsService.getEstimated() > news.length+10"
+      >
+        <button (click)="showMore()" class="btn btn-primary center">
+          Carica Altro ...
+        </button>
+      </div>
+      <div
+      class="text-center"
+      *ngIf="news.length >= 1 && newsService.getEstimated() < news.length+10"
+    >
+      <button (click)="showMore()" disabled="true" class="btn btn-primary center">
+        Non c'e altro..
+      </button>
+    </div>
+    </div>
+    <div
+      class="spinner-border loader"
+      role="status"
+      *ngIf="loader.getLoading()"
+    >
+      <span class="sr-only">Loading...</span>
     </div>
   </div>
 </div>

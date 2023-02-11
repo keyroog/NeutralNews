@@ -1,6 +1,11 @@
 $theme-colors: (
-  "primary": #5961f9ad,
+  "primary": #5961F9,
 );
 
+@import "../node_modules/font-awesome/scss/font-awesome.scss";
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
 @import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';

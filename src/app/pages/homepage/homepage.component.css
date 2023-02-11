@@ -1,21 +1,22 @@
 .main-container{
-  background: #5961f9ad;
   height: 100vh;
   display:flex;
   justify-content: center;
   align-items: center;
 }
 
+.box-content{
+  overflow: scroll;
+  height: 70%;
+  overflow-x: hidden;
+}
+
 .wrapper{
   background: #fff;
   width: 80%;
-  height: 80%;
+  height: 90%;
   border-radius: 10px;
   box-shadow: 0 0 10px 0 #a3a3a3;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow: scroll;
 }
 
 .box-header{
@@ -26,7 +27,7 @@
 }
 
 .search-input{
-  width: 50%;
+  width: 30%;
 }
 
 
@@ -36,10 +37,16 @@
   font-weight: 900;
 }
 
+.loader{
+  position:absolute;
+  top: 50%;
+  left: 47%;
+}
+
 hr.solid {
   width: 100%;
 }
 
-.box-content{
-  overflow: scroll;
+.card-row{
+  margin:0;
 }

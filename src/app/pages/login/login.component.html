@@ -1,34 +1,41 @@
-<div class="main-container">
-  <div class="row main-row">
-    <div class="col left">
-      <h1 class="h1 title"><span>Neutral</span></h1>
-      <p class="h1 title">News</p>
-      <p class="h3 subtitle">Resta aggiornato su tutto ciò che ti interessa con la possibilità di poter filtrare i contenuti tossici</p>
+<div class="container-fluid" data-aos="fade-in">
+  <div class="row min-vh-100">
+    <div class="col-lg left bg-primary text-white p-5 text-center d-flex">
+      <div class="row align-items-center justify-content-center">
+        <div class="row">
+          <div class="row">
+            <h1 class="h1 title"><span>Neutral</span></h1>
+          </div>
+          <div class="row"><p class="h1 title">News</p></div>
+          <div class="row">
+            <p class="h3 subtitle">
+              Resta aggiornato su tutto ciò che ti interessa con la possibilità
+              di poter filtrare i contenuti tossici
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
     
     
-    <div class="col right">
-      <div class="right-wrapper container">
+    <div class="col-lg right p-3 d-flex">
+      <div class="container">
         <h1 class="login-typography">Login</h1>
         <p>Non hai un account? <a href="signup">Crealo subito!</a> ci vuole meno di 1 minuto!</p>
-        <div class="form-group">
-          <div class="input-group mb-4 mt-3 flex">
-            <input type="text" [(ngModel)]="username" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+        <form [formGroup]="userForm">
+          <div class="form-floating mb-4 mt-3">
+            <input type="text" class="form-control" id="floatingUsername" formControlName="username" placeholder="username">
+            <label for="floatingUsername">Username</label>
           </div>
-          <div class="input-group mb-4">
-            <input type="password" [(ngModel)]="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon1">
+          <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="password">
+            <label for="floatingPassword">Password</label>
           </div>
-        </div>
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-          <label class="form-check-label" for="flexCheckDefault">
-            Remember Me
-          </label>
-        </div>
-        <br>
-        <div>
-          <button class="btn btn-primary btn-login" (click)="login()">Login</button>
-        </div>
+          <br>
+          <div>
+            <button class="btn btn-primary btn-login" (click)="login()" [disabled]="!userForm.valid">Login</button>
+          </div>
+        </form>
       </div>
     </div>
     

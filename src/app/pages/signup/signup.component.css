@@ -1,57 +1,7 @@
-.main-row{
-  height: 100vh;
-  --bs-gutter-x: 0 !important;
-  --bs-gutter-y: 0 !important;
-}
-
-p{
-  margin:0;
-}
-
-.left {
-  padding: 50px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  color: #FFFFFF;
-  background: #5961f9ad;
-}
-.right{
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 50px;
-  align-items: center;
-}
-
-.form-group{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.description{
-  margin-bottom:1rem;
-}
-
 .btn-delete{
   width:50px;
 }
 
-.btn-add{
-  border-radius:50%;
-}
-
-.last-typo{
-  margin-top:40px;
-}
-
-.right-wrapper{
-  width:80%;
-  display: flex;
-  flex-direction: column;
-}
 
 .title{
   font-size: 8vmax;
@@ -64,12 +14,11 @@ p{
   text-align: center;
   font-size: 4vmax;
   font-weight: 900;
-  margin-bottom: 50px;
 }
 
 .title span{
   background-color: white;
-  color: #5961f9ad;
+  color: #5961F9;
   border-radius: 5px;
   padding:10px;
 }
@@ -83,35 +32,4 @@ p{
 .subtitle{
   padding-top:10px;
   border-top:2px solid white;
-}
-
-.single-input-container{
-  display: flex;
-}
-
-.preferiti-row1{
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-@media screen and (max-width: 992px) {
-  .right-wrapper{
-    margin-top: 40px;
-    width: 100%;
-    overflow: hidden;
-  }
-  .right{
-    padding:0;
-  }
-  .left{
-    min-height: 50%;
-    padding: 10px;
-    text-align: center;
-  }
-
-  .last-typo{
-    margin-bottom:40px;
-  }
 }

@@ -1,14 +1,12 @@
 const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
-const account = "projectuserstorage";
-const accountKey = "se";
-const tableName = "users";
-const credential = new AzureNamedKeyCredential(account, accountKey);
-const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
-
 
 module.exports = async function (context, req) {
-    context.log('JavaScript HTTP trigger function processed a request.');
+    const account = "cpstorageresource";
+    const storageAccountKey = context.req.body.storageAccountKey;
+    const tableName = "users";
+    const credential = new AzureNamedKeyCredential(account, storageAccountKey);
+    const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
     let username = context.req.body.username;
     let password = context.req.body.password;
     let preferiti = context.req.body.preferiti;
