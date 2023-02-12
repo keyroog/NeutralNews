@@ -30,6 +30,9 @@ export class LoadingInterceptor implements HttpInterceptor {
     if(request.url === environment.searchUrl){
       this.loadingService.setLoading(true);
     }
+    if(request.url === environment.updateUrl){
+      this.loadingService.setLoading2(true);
+    }
     return next.handle(request).pipe(
       tap((event: HttpEvent<any>) => {
         if (event instanceof HttpResponse) {
@@ -46,6 +49,9 @@ export class LoadingInterceptor implements HttpInterceptor {
           if (this.totalRequests == 0) {
             this.loadingService.setLoading(false);
           }
+        }
+        if(request.url === environment.updateUrl){
+          this.loadingService.setLoading2(false);
         }
       })
     );

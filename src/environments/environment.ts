@@ -7,9 +7,10 @@ export const environment = {
   storageAccountKey: '',
   bingSubscriptionKey: '',
   cognitiveSubscriptionKey: '',
-  loginUrl : 'https://cpfunctionresource.azurewebsites.net/api/cloudprojectlogin?code=MwVrGoV3rjQkzwzecvUBckbVAC5R6D_1nKVL7Ysf6T_KAzFumI1EoQ==',
-  signupUrl: 'https://cpfunctionresource.azurewebsites.net/api/cloudprojectsignup?code=3Fpk-WU80dPVOR3U4hwiCNiW4Z2wC3IBC4jRfosoupdJAzFueken6g==',
-  searchUrl: 'https://cpfunctionresource.azurewebsites.net/api/cloudprojectsearch?'
+  loginUrl : '',
+  signupUrl: '',
+  updateUrl: '',
+  searchUrl: ''
 };
 
 /*

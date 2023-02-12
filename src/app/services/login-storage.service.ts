@@ -22,7 +22,7 @@ export class LoginStorageService {
     this.http.post<ILikes | boolean>(environment.loginUrl,body)
       .subscribe(data => {
         if(typeof data === 'boolean'){
-          alert("non puoi entrare");
+          alert("Password Errata");
           console.log('booleano');
           console.log(data);
         }else{
@@ -30,8 +30,9 @@ export class LoginStorageService {
           this.userService.storeUserInformation(data);
           this.router.navigate(['home']);
         }
-      }
-    );
+      },
+      (err) => alert("Profilo non trovato"),
+    )
   }
 
   /*

@@ -15,48 +15,176 @@
         <div class="modal-body">
           <form [formGroup]="userForm">
             <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="floatingInput" [value]="this.userService.getUsername()" formControlName="username" placeholder="name@example.com">
+              <input
+                type="email"
+                class="form-control"
+                id="floatingInput"
+                [value]="this.userService.getUsername()"
+                [attr.disabled]="true"
+                formControlName="username"
+                placeholder="name@example.com"
+              />
               <label for="floatingInput">Username</label>
             </div>
             <div class="input-group d-flex">
               <div class="form-floating">
-                <input [type]="fieldTextType ? 'text' : 'password'" class="form-control" id="floatingPassword" [value]="this.userService.getPassword()" formControlName="password" placeholder="Password">
+                <input
+                  [type]="fieldTextType ? 'text' : 'password'"
+                  class="form-control"
+                  id="floatingPassword"
+                  [value]="this.userService.getPassword()"
+                  formControlName="password"
+                  placeholder="Password"
+                />
                 <label for="floatingPassword">Password</label>
               </div>
               <div class="input-group-append">
                 <span class="input-group-text h-100">
-                  <i class="fa"
-                  [ngClass]="{
-                    'fa-eye-slash': !fieldTextType,
-                    'fa-eye': fieldTextType
-                  }"
-                  (click)="toggleFieldTextType()"></i>
+                  <i
+                    class="fa"
+                    [ngClass]="{
+                      'fa-eye-slash': !fieldTextType,
+                      'fa-eye': fieldTextType
+                    }"
+                    (click)="toggleFieldTextType()"
+                  ></i>
                 </span>
-             </div>
+              </div>
             </div>
-            <div *ngFor="let element of preferitiFormArray.controls; let i = index" class="col mt-2">
-              <label formArrayName="preferiti" class="w-100">
-                  <input type="checkbox" class="btn-check" [id]="i" autocomplete="off" [formControlName]="i">
-                  <label class="btn btn-outline-primary w-100" [htmlFor]="i">{{categorie[i].name}}</label><br>
-              </label>
+            <div
+              class="alert alert-danger"
+              role="alert"
+              *ngIf="userForm.get('password')?.value.length < 8"
+            >
+              La password deve essere lunga almeno 8 caratteri
+            </div>
+            <div class="d-flex justify-content-end">
+              <button
+                class="btn btn-primary mt-3 right"
+                (click)="enableUpdate()"
+                [disabled]="updateEnable"
+              >
+                Modifica Password
+              </button>
+            </div>
+            <hr class="my-4" />
+            <h5 class="text-center text-primary">Preferiti</h5>
+            <div class="row row-cols-2">
+              <div
+                *ngFor="
+                  let element of preferitiFormArray.controls;
+                  let i = index
+                "
+                class="col w-50 mt-2"
+              >
+                <label formArrayName="preferiti" class="w-100">
+                  <input
+                    type="checkbox"
+                    class="btn-check"
+                    [id]="i"
+                    autocomplete="off"
+                    [formControlName]="i"
+                  />
+                  <label class="btn btn-outline-primary w-100" [htmlFor]="i">{{
+                    categorie[i].name
+                  }}</label
+                  ><br />
+                </label>
+              </div>
             </div>
           </form>
         </div>
         <div class="modal-footer d-flex justify-content-between">
           <button
-          type="button"
-          class="btn-primary btn btn-block float-start"
-          (click)="disconnect()"
-        >
-          Disconnetti
-        </button>
+            type="button"
+            class="btn-primary btn btn-block float-start"
+            (click)="disconnect()"
+          >
+            Disconnetti
+          </button>
           <button
             type="button"
             class="btn-primary btn btn-block"
             [disabled]="!userForm.valid"
-            (click)="c('Save click')"
+            (click)="open(content2)"
           >
             Save
+          </button>
+        </div>
+      </ng-template>
+      <ng-template #content2 let-c="close" let-d="dismiss">
+        <div class="modal-header text-center">
+          <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="d('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div
+            style="height: 13vh"
+            class="d-flex align-items-center justify-content-center"
+          >
+            <h5 class="text-center text-primary">Sicuro di voler procedere?</h5>
+          </div>
+          <div class="d-flex justify-content-center">
+            <div
+            class="spinner-border text-primary"
+            role="status"
+            *ngIf="loader.getLoading2()"
+          >
+            <span class="sr-only">Loading...</span>
+          </div>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-around">
+          <button
+            type="button"
+            class="btn-primary btn btn-block btn-lg"
+            (click)="d('Cross click')"
+          >
+            No
+          </button>
+          <button
+            type="button"
+            class="btn-primary btn btn-block btn-lg"
+            [disabled]="!userForm.valid"
+            (click)="updateUser(content3)"
+          >
+            Si
+          </button>
+        </div>
+      </ng-template>
+      <ng-template #content3 let-c="close" let-d="dismiss">
+        <div class="modal-header text-center">
+          <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
+          <button
+            type="button"
+            class="btn-close"
+            aria-label="Close"
+            (click)="d('Cross click')"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div
+            style="height: 13vh"
+            class="d-flex align-items-center justify-content-center"
+          >
+            <h5 class="text-center text-primary">Dati aggiornati correttamente!</h5>
+          </div>
+          <div class="text-center text-success h1">
+            <i class="bi bi-check-circle"></i>
+          </div>
+        </div>
+        <div class="modal-footer d-flex justify-content-around">
+          <button
+            type="button"
+            class="btn-primary btn btn-block btn-lg"
+            (click)="disconnect()"
+          >
+            Disconnetti
           </button>
         </div>
       </ng-template>
@@ -89,15 +217,50 @@
       </div>
     </div>
     <hr class="solid" />
-    <div *ngIf="news.length >= 1 && !this.loader.getLoading()" class="filter d-flex justify-content-center">
+    <div
+      *ngIf="news.length >= 1 && !this.loader.getLoading()"
+      class="filter d-flex justify-content-center"
+    >
       <div class="col">
-        <h3 class="text-primary">Totale: {{news.length}}</h3>
+        <h3 class="text-primary">Totale: {{ news.length }}</h3>
       </div>
       <div class="col d-flex">
-        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('all')" (click)="setActive('all')"> Tutti</button></div>
-        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('positive')" (click)="setActive('positive')"> Positivi</button></div>
-        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('neutral')" (click)="setActive('neutral')"> Neutrali</button></div>
-        <div class="col text-center"><button class="btn btn-outline-primary"[class.active]="isActive('negative')" (click)="setActive('negative')"> Negativi</button></div>
+        <div class="col text-center">
+          <button
+            class="btn btn-outline-primary"
+            [class.active]="isActive('all')"
+            (click)="setActive('all')"
+          >
+            Tutti
+          </button>
+        </div>
+        <div class="col text-center">
+          <button
+            class="btn btn-outline-primary"
+            [class.active]="isActive('positive')"
+            (click)="setActive('positive')"
+          >
+            Positivi
+          </button>
+        </div>
+        <div class="col text-center">
+          <button
+            class="btn btn-outline-primary"
+            [class.active]="isActive('neutral')"
+            (click)="setActive('neutral')"
+          >
+            Neutrali
+          </button>
+        </div>
+        <div class="col text-center">
+          <button
+            class="btn btn-outline-primary"
+            [class.active]="isActive('negative')"
+            (click)="setActive('negative')"
+          >
+            Negativi
+          </button>
+        </div>
       </div>
       <div></div>
     </div>
@@ -108,37 +271,55 @@
         newsService.getVoid() || this.loader.getLoading() || news.length >= 1
       "
     >
-    <div *ngIf="newsService.getVoid()" class="text-center">
-      <h1>Ops.. Nessun Risultato, Riprova con un'altra parola!</h1>
-    </div>
+      <div *ngIf="newsService.getVoid()" class="text-center">
+        <h1>Ops.. Nessun Risultato, Riprova con un'altra parola!</h1>
+      </div>
       <div
-        *ngFor="let new of news ; let i = index"
+        *ngFor="let new of news; let i = index"
         class="card-row"
         style="margin: 0; padding: 0"
       >
-        <div class="row" *ngIf="this.activeButton === 'all' || new.sentiment === this.activeButton">
+        <div
+          class="row"
+          *ngIf="
+            this.activeButton === 'all' || new.sentiment === this.activeButton
+          "
+        >
           <app-news-card [news]="new" [index]="i"></app-news-card>
         </div>
-        <div class="row" *ngIf="this.activeButton === 'all' || new.sentiment === this.activeButton">
+        <div
+          class="row"
+          *ngIf="
+            this.activeButton === 'all' || new.sentiment === this.activeButton
+          "
+        >
           <hr class="solid" style="display: block" />
         </div>
       </div>
       <div
         class="text-center"
-        *ngIf="news.length >= 1 && newsService.getEstimated() > news.length+10"
+        *ngIf="
+          news.length >= 1 && newsService.getEstimated() > news.length + 10
+        "
       >
         <button (click)="showMore()" class="btn btn-primary center">
           Carica Altro ...
         </button>
       </div>
       <div
-      class="text-center"
-      *ngIf="news.length >= 1 && newsService.getEstimated() < news.length+10"
-    >
-      <button (click)="showMore()" disabled="true" class="btn btn-primary center">
-        Non c'e altro..
-      </button>
-    </div>
+        class="text-center"
+        *ngIf="
+          news.length >= 1 && newsService.getEstimated() < news.length + 10
+        "
+      >
+        <button
+          (click)="showMore()"
+          disabled="true"
+          class="btn btn-primary center"
+        >
+          Non c'e altro..
+        </button>
+      </div>
     </div>
     <div
       class="spinner-border loader"

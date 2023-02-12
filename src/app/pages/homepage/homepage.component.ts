@@ -8,6 +8,7 @@ import { NgbModalConfig, NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderService } from 'src/app/services/loader.service';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Categorie } from 'src/app/entities/entities';
+import { UpdateStorageService } from 'src/app/services/update-storage.service';
 
 @Component({
   selector: 'app-homepage',
@@ -19,12 +20,13 @@ export class HomepageComponent implements OnInit {
   searchInput!: String;
   loading = false;
   voidSearch = false;
+  updateLoading = false;
   activeButton:string = 'all';
   news: INews[] = [];
   categorie = Categorie;
-
+  updateEnable = false;
   userForm: FormGroup;
-
+  confirmUpdate: boolean = false;
   fieldTextType: boolean=false;
 
   toggleFieldTextType() {
@@ -39,6 +41,7 @@ export class HomepageComponent implements OnInit {
     private modalService: NgbModal,
     public loader : LoaderService,
     private fb : FormBuilder,
+    private updateService: UpdateStorageService
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -83,6 +86,7 @@ export class HomepageComponent implements OnInit {
 
     this.userForm.controls['username'].setValue(this.userService.getUsername());
     this.userForm.controls['password'].setValue(this.userService.getPassword());
+    this.userForm.get('password')?.disable();
   }
   logout() {
     this.userService.logout();
@@ -117,4 +121,18 @@ export class HomepageComponent implements OnInit {
     this.userService.logout();
   }
   
+  updateUser(content:any){
+    console.log(this.userForm.value);
+    this.updateEnable = false
+    const selectedCategory = this.userForm.value.preferiti
+        .map((checked:any, i:number) => checked ? this.categorie[i].id : null)
+        .filter((v:any) => v !== null);
+    console.log(JSON.stringify(selectedCategory));
+    this.updateService.updateStorage(this.userForm.value.username,this.userForm.value.password,JSON.stringify(selectedCategory),content);
+  }
+
+  enableUpdate(){
+    this.updateEnable = true;
+    this.userForm.get('password')?.enable();
+  }
 }

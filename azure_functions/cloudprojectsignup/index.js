@@ -12,11 +12,12 @@ module.exports = async function (context, req) {
     let preferiti = context.req.body.preferiti;
     let responseMessage="false";
     const task = {
-        partitionKey: username,
-        rowKey: password,
+        partitionKey: 'users',
+        rowKey: username,
+        password : password,
         preferiti: preferiti,
     };
-    let user = await client.getEntity(username, password)
+    let user = await client.getEntity('users', username)
     .catch((error) => {
         responseMessage = "error: " + error.message
     });

@@ -30,14 +30,11 @@ export class SignupComponent implements OnInit {
 
   signup() {
     let preferitiArr:string[] = [];
-    if(this.userSignup.value.username === ""){
-      alert("Please enter a valid username");
+    if(this.userSignup.value.preferiti.length === 0){
+      alert("Inserisci almeno una preferenza");
+    }else if(this.userSignup.value.password !== this.userSignup.value.repeatPassword){
+      alert("Le password non coincidono");
       return;
-    } else if(this.userSignup.value.password === ""){
-      alert("Please enter a valid password");
-      return;
-    }else if(this.userSignup.value.preferiti.length === 0){
-      alert("Please enter at least one preference");
     }else{
       console.log(this.userSignup.value);
       const selectedCategory = this.userSignup.value.preferiti
@@ -56,7 +53,8 @@ export class SignupComponent implements OnInit {
   constructor(private fb:FormBuilder,private signupService : SignupStorageService) {
     this.userSignup = this.fb.group({
       username: ["", [Validators.required]],
-      password: ["", [Validators.required]],
+      password: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      repeatPassword: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       preferiti: new FormArray([]),
     });
 

@@ -30,12 +30,29 @@
               <input type="text" class="form-control" id="floatingUsername" formControlName="username" placeholder="username">
               <label for="floatingUsername">Username</label>
             </div>
-            <div class="form-floating mb-4">
-              <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="password">
-              <label for="floatingPassword">Password</label>
+            <div class="row">
+              <div class="col">
+              <div class="form-floating mb-4">
+                <input type="password" class="form-control" id="floatingPassword" formControlName="password" placeholder="password">
+                <label for="floatingPassword">Password</label>
+              </div>
             </div>
-              <div>
-                <p style="margin-right: 20px">
+            <div class="col">
+              <div class="form-floating mb-4">
+                <input type="password" class="form-control" id="repeat" formControlName="repeatPassword" placeholder="repeat password">
+                <label for="repeat">Ripeti Password</label>
+              </div>
+            </div>
+          </div>
+            <div
+            class="alert alert-danger"
+            role="alert"
+            *ngIf="userSignup.get('password')?.value.length < 8"
+          >
+            La password deve essere lunga almeno 8 caratteri
+          </div>
+              <div class="m-3">
+                <p class="h5">
                   Seleziona le categorie che Preferisci: Minimo 1
                 </p>
               </div>
