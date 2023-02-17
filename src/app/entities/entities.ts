@@ -9,6 +9,11 @@ export interface INews  {
   category: string
 }
 
+export interface IBingResponse{
+  documents: INews[],
+  sentiment: Sentiment[],
+}
+
 enum Sentiment{
   'positive' = "Positivo",
   'negative' = "Negativo",
@@ -36,7 +41,6 @@ export const Categorie = [
   {id: 'ScienceAndTechnology', name : 'Science & Technology'},
   {id: 'Business', name : 'Business'},
   {id: 'Entertainment', name : 'Entertainment'},
-  {id: 'Health', name : 'Health'},
   {id: 'World', name : 'World'},
   {id: 'Sports', name : 'Sports'},
   {id: 'Culture', name : 'Culture'},

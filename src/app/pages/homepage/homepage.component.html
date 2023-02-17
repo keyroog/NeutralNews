@@ -1,226 +1,237 @@
 <div class="main-container bg-primary">
-  <div class="container wrapper" data-aos="fade-in">
-    <div class="col-md-12 box-header">
-      <h1 class="h1 title text-primary"><span>Neutral News</span></h1>
-      <ng-template #content let-c="close" let-d="dismiss">
-        <div class="modal-header text-center">
-          <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
-          <button
-            type="button"
-            class="btn-close"
-            aria-label="Close"
-            (click)="d('Cross click')"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <form [formGroup]="userForm">
-            <div class="form-floating mb-3">
-              <input
-                type="email"
-                class="form-control"
-                id="floatingInput"
-                [value]="this.userService.getUsername()"
-                [attr.disabled]="true"
-                formControlName="username"
-                placeholder="name@example.com"
-              />
-              <label for="floatingInput">Username</label>
-            </div>
-            <div class="input-group d-flex">
-              <div class="form-floating">
+  <div class="container-sm wrapper" data-aos="fade-in">
+    <div class="row mt-1">
+      <div class="col-sm-4 d-flex align-items-center justify-content-center">
+        <h1 class="h1 title mt-2">
+          <a href="/" class="text-decoration-none text-primary"
+            ><span>Neutral News</span></a
+          >
+        </h1>
+      </div>
+      <div class=" col-sm-4">
+        <ng-template #content let-c="close" let-d="dismiss">
+          <div class="modal-header text-center">
+            <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="userForm">
+              <div class="form-floating mb-3">
                 <input
-                  [type]="fieldTextType ? 'text' : 'password'"
+                  type="email"
                   class="form-control"
-                  id="floatingPassword"
-                  [value]="this.userService.getPassword()"
-                  formControlName="password"
-                  placeholder="Password"
+                  id="floatingInput"
+                  [value]="this.userService.getUsername()"
+                  [attr.disabled]="true"
+                  formControlName="username"
+                  placeholder="name@example.com"
                 />
-                <label for="floatingPassword">Password</label>
+                <label for="floatingInput">Username</label>
               </div>
-              <div class="input-group-append">
-                <span class="input-group-text h-100">
-                  <i
-                    class="fa"
-                    [ngClass]="{
-                      'fa-eye-slash': !fieldTextType,
-                      'fa-eye': fieldTextType
-                    }"
-                    (click)="toggleFieldTextType()"
-                  ></i>
-                </span>
-              </div>
-            </div>
-            <div
-              class="alert alert-danger"
-              role="alert"
-              *ngIf="userForm.get('password')?.value.length < 8"
-            >
-              La password deve essere lunga almeno 8 caratteri
-            </div>
-            <div class="d-flex justify-content-end">
-              <button
-                class="btn btn-primary mt-3 right"
-                (click)="enableUpdate()"
-                [disabled]="updateEnable"
-              >
-                Modifica Password
-              </button>
-            </div>
-            <hr class="my-4" />
-            <h5 class="text-center text-primary">Preferiti</h5>
-            <div class="row row-cols-2">
-              <div
-                *ngFor="
-                  let element of preferitiFormArray.controls;
-                  let i = index
-                "
-                class="col w-50 mt-2"
-              >
-                <label formArrayName="preferiti" class="w-100">
+              <div class="input-group d-flex">
+                <div class="form-floating">
                   <input
-                    type="checkbox"
-                    class="btn-check"
-                    [id]="i"
-                    autocomplete="off"
-                    [formControlName]="i"
+                    [type]="fieldTextType ? 'text' : 'password'"
+                    class="form-control"
+                    id="floatingPassword"
+                    [value]="this.userService.getPassword()"
+                    formControlName="password"
+                    placeholder="Password"
                   />
-                  <label class="btn btn-outline-primary w-100" [htmlFor]="i">{{
-                    categorie[i].name
-                  }}</label
-                  ><br />
-                </label>
+                  <label for="floatingPassword">Password</label>
+                </div>
+                <div class="input-group-append">
+                  <span class="input-group-text h-100">
+                    <i
+                      class="fa"
+                      [ngClass]="{
+                        'fa-eye-slash': !fieldTextType,
+                        'fa-eye': fieldTextType
+                      }"
+                      (click)="toggleFieldTextType()"
+                    ></i>
+                  </span>
+                </div>
+              </div>
+              <div
+                class="alert alert-danger"
+                role="alert"
+                *ngIf="userForm.get('password')?.value.length < 8"
+              >
+                La password deve essere lunga almeno 8 caratteri
+              </div>
+              <div class="d-flex justify-content-end">
+                <button
+                  class="btn btn-primary mt-3 right"
+                  (click)="enableUpdate()"
+                  [disabled]="updateEnable"
+                >
+                  Modifica Password
+                </button>
+              </div>
+              <hr class="my-4" />
+              <h5 class="text-center text-primary">Preferiti</h5>
+              <div class="row row-cols-2 mb-4">
+                <div
+                  *ngFor="
+                    let element of preferitiFormArray.controls;
+                    let i = index
+                  "
+                  class="col w-50 mt-2"
+                >
+                  <label formArrayName="preferiti" class="w-100">
+                    <input
+                      type="checkbox"
+                      class="btn-check"
+                      [id]="i"
+                      autocomplete="off"
+                      [formControlName]="i"
+                    />
+                    <label
+                      class="btn btn-outline-primary w-100"
+                      [htmlFor]="i"
+                      >{{ categorie[i].name }}</label
+                    ><br />
+                  </label>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer d-flex justify-content-between">
+            <button
+              type="button"
+              class="btn-primary btn btn-block float-start"
+              (click)="disconnect()"
+            >
+              Disconnetti
+            </button>
+            <button
+              type="button"
+              class="btn-primary btn btn-block"
+              [disabled]="!userForm.valid"
+              (click)="open(content2)"
+            >
+              Save
+            </button>
+          </div>
+        </ng-template>
+        <ng-template #content2 let-c="close" let-d="dismiss">
+          <div class="modal-header text-center">
+            <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div
+              style="height: 13vh"
+              class="d-flex align-items-center justify-content-center"
+            >
+              <h5 class="text-center text-primary">
+                Sicuro di voler procedere?
+              </h5>
+            </div>
+            <div class="d-flex justify-content-center">
+              <div
+                class="spinner-border text-primary"
+                role="status"
+                *ngIf="loader.getLoading2()"
+              >
+                <span class="sr-only">Loading...</span>
               </div>
             </div>
-          </form>
-        </div>
-        <div class="modal-footer d-flex justify-content-between">
-          <button
-            type="button"
-            class="btn-primary btn btn-block float-start"
-            (click)="disconnect()"
-          >
-            Disconnetti
-          </button>
-          <button
-            type="button"
-            class="btn-primary btn btn-block"
-            [disabled]="!userForm.valid"
-            (click)="open(content2)"
-          >
-            Save
-          </button>
-        </div>
-      </ng-template>
-      <ng-template #content2 let-c="close" let-d="dismiss">
-        <div class="modal-header text-center">
-          <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
-          <button
-            type="button"
-            class="btn-close"
-            aria-label="Close"
-            (click)="d('Cross click')"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <div
-            style="height: 13vh"
-            class="d-flex align-items-center justify-content-center"
-          >
-            <h5 class="text-center text-primary">Sicuro di voler procedere?</h5>
           </div>
-          <div class="d-flex justify-content-center">
+          <div class="modal-footer d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn-primary btn btn-block btn-lg"
+              (click)="d('Cross click')"
+            >
+              No
+            </button>
+            <button
+              type="button"
+              class="btn-primary btn btn-block btn-lg"
+              [disabled]="!userForm.valid"
+              (click)="updateUser(content3)"
+            >
+              Si
+            </button>
+          </div>
+        </ng-template>
+        <ng-template #content3 let-c="close" let-d="dismiss">
+          <div class="modal-header text-center">
+            <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
+            <button
+              type="button"
+              class="btn-close"
+              aria-label="Close"
+              (click)="d('Cross click')"
+            ></button>
+          </div>
+          <div class="modal-body">
             <div
-            class="spinner-border text-primary"
-            role="status"
-            *ngIf="loader.getLoading2()"
-          >
-            <span class="sr-only">Loading...</span>
+              style="height: 13vh"
+              class="d-flex align-items-center justify-content-center"
+            >
+              <h5 class="text-center text-primary">
+                Dati aggiornati correttamente!
+              </h5>
+            </div>
+            <div class="text-center text-success h1">
+              <i class="bi bi-check-circle"></i>
+            </div>
           </div>
+          <div class="modal-footer d-flex justify-content-around">
+            <button
+              type="button"
+              class="btn-primary btn btn-block btn-lg"
+              (click)="disconnect()"
+            >
+              Disconnetti
+            </button>
           </div>
-        </div>
-        <div class="modal-footer d-flex justify-content-around">
-          <button
-            type="button"
-            class="btn-primary btn btn-block btn-lg"
-            (click)="d('Cross click')"
-          >
-            No
-          </button>
-          <button
-            type="button"
-            class="btn-primary btn btn-block btn-lg"
-            [disabled]="!userForm.valid"
-            (click)="updateUser(content3)"
-          >
-            Si
-          </button>
-        </div>
-      </ng-template>
-      <ng-template #content3 let-c="close" let-d="dismiss">
-        <div class="modal-header text-center">
-          <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
-          <button
-            type="button"
-            class="btn-close"
-            aria-label="Close"
-            (click)="d('Cross click')"
-          ></button>
-        </div>
-        <div class="modal-body">
-          <div
-            style="height: 13vh"
-            class="d-flex align-items-center justify-content-center"
-          >
-            <h5 class="text-center text-primary">Dati aggiornati correttamente!</h5>
-          </div>
-          <div class="text-center text-success h1">
-            <i class="bi bi-check-circle"></i>
-          </div>
-        </div>
-        <div class="modal-footer d-flex justify-content-around">
-          <button
-            type="button"
-            class="btn-primary btn btn-block btn-lg"
-            (click)="disconnect()"
-          >
-            Disconnetti
-          </button>
-        </div>
-      </ng-template>
-      <div
-        class="d-flex align-items-center justify-content-center flex-column user-button"
-        (click)="open(content)"
-      >
-        <p class="h1 text-primary m-0 p-0">
-          <i class="bi bi-person-circle"></i>
-        </p>
-        <strong class="text-primary m-0 p-0">Utente</strong>
-      </div>
-      <div class="input-group rounded search-input">
-        <input
-          type="search"
-          [(ngModel)]="searchInput"
-          (keyup.enter)="search()"
-          class="form-control"
-          placeholder="Search"
-          aria-label="Search"
-          aria-describedby="search-addon"
-        />
-        <button
-          (click)="search()"
-          class="btn btn-primary border-0"
-          id="search-addon"
+        </ng-template>
+        <div
+          class="d-flex align-items-center justify-content-center flex-column user-button"
         >
-          <i class="bi bi-search"></i>
-        </button>
+          <p class="h1 text-primary m-0 p-0">
+            <i (click)="open(content)" class="bi bi-person-circle"></i>
+          </p>
+          <strong class="text-primary m-0 p-0">Profilo </strong>
+        </div>
       </div>
+      <div class="col-sm-4 d-flex align-items-center">
+        <div class="input-group rounded">
+          <input
+            type="search"
+            [(ngModel)]="searchInput"
+            (keyup.enter)="search()"
+            class="form-control"
+            placeholder="Search"
+            aria-label="Search"
+            aria-describedby="search-addon"
+          />
+          <button
+            (click)="search()"
+            class="btn btn-primary border-0"
+            id="search-addon"
+          >
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+      <hr class="solid mt-1" />
     </div>
-    <hr class="solid" />
-    <div
-      *ngIf="news.length >= 1 && !this.loader.getLoading()"
-      class="filter d-flex justify-content-center"
-    >
+    <div *ngIf="news.length >= 1 && !this.loader.getLoading()" class="row">
       <div class="col">
         <h3 class="text-primary">Totale: {{ news.length }}</h3>
       </div>
@@ -262,63 +273,71 @@
           </button>
         </div>
       </div>
-      <div></div>
+      <hr
+        class="solid mt-3"
+        *ngIf="news.length >= 1 && !this.loader.getLoading()"
+      />
     </div>
-    <hr class="solid" *ngIf="news.length >= 1 && !this.loader.getLoading()" />
-    <div
-      class="row box-content"
-      *ngIf="
-        newsService.getVoid() || this.loader.getLoading() || news.length >= 1
-      "
-    >
-      <div *ngIf="newsService.getVoid()" class="text-center">
-        <h1>Ops.. Nessun Risultato, Riprova con un'altra parola!</h1>
-      </div>
+    <div class="row m-0 p-0 content">
       <div
-        *ngFor="let new of news; let i = index"
-        class="card-row"
-        style="margin: 0; padding: 0"
-      >
-        <div
-          class="row"
-          *ngIf="
-            this.activeButton === 'all' || new.sentiment === this.activeButton
-          "
-        >
-          <app-news-card [news]="new" [index]="i"></app-news-card>
-        </div>
-        <div
-          class="row"
-          *ngIf="
-            this.activeButton === 'all' || new.sentiment === this.activeButton
-          "
-        >
-          <hr class="solid" style="display: block" />
-        </div>
-      </div>
-      <div
-        class="text-center"
+        class="row p-0 m-0"
         *ngIf="
-          news.length >= 1 && newsService.getEstimated() > news.length + 10
+          newsService.getVoid() || this.loader.getLoading() || news.length >= 1
         "
       >
-        <button (click)="showMore()" class="btn btn-primary center">
-          Carica Altro ...
-        </button>
-      </div>
-      <div
-        class="text-center"
-        *ngIf="
-          news.length >= 1 && newsService.getEstimated() < news.length + 10
-        "
-      >
-        <button
-          (click)="showMore()"
-          disabled="true"
-          class="btn btn-primary center"
+        <div *ngIf="newsService.getVoid()" class="text-center">
+          <h1>Ops.. Nessun Risultato, Riprova con un'altra parola!</h1>
+        </div>
+        <div
+          *ngFor="let new of news; let i = index"
+          class="card-row"
+          style="margin: 0; padding: 0"
         >
-          Non c'e altro..
-        </button>
+          <div
+            class="row"
+            *ngIf="
+              this.activeButton === 'all' || new.sentiment === this.activeButton
+            "
+          >
+            <app-news-card [news]="new" [index]="i"></app-news-card>
+          </div>
+          <div
+            class="row"
+            *ngIf="
+              this.activeButton === 'all' || new.sentiment === this.activeButton
+            "
+          >
+            <hr class="solid" style="display: block" />
+          </div>
+        </div>
+        <div *ngIf="!populate">
+          <div
+            class="text-center"
+            *ngIf="
+              news.length >= 1 && newsService.getEstimated() > news.length + 10
+            "
+          >
+            <button (click)="showMore()" class="btn btn-primary center mb-1">
+              Carica Altro ...
+            </button>
+          </div>
+          <div
+            class="text-center"
+            *ngIf="
+              news.length >= 1 &&
+              newsService.getEstimated() < news.length + 10 &&
+              this.populate
+            "
+          >
+            <button
+              (click)="showMore()"
+              disabled="true"
+              class="btn btn-primary center mb-3"
+            >
+              Non c'e altro..
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div

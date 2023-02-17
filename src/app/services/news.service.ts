@@ -34,6 +34,10 @@ export class NewsService {
     console.log(this.news);
   }
 
+  storeHomeData(data: any) {
+    this.news.push(data);
+  }
+
   getNews(){
     return this.news;
   }

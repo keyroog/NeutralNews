@@ -27,7 +27,7 @@ export class LoadingInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     this.totalRequests++;
-    if(request.url === environment.searchUrl){
+    if(request.url === environment.searchUrl || request.url === environment.populateUrl){
       this.loadingService.setLoading(true);
     }
     if(request.url === environment.updateUrl){
@@ -45,7 +45,7 @@ export class LoadingInterceptor implements HttpInterceptor {
       }),
       finalize(() => {
         this.totalRequests--;
-        if (request.url === environment.searchUrl) {
+        if (request.url === environment.searchUrl || request.url === environment.populateUrl) {
           if (this.totalRequests == 0) {
             this.loadingService.setLoading(false);
           }

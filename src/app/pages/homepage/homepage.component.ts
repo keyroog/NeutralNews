@@ -9,6 +9,9 @@ import { LoaderService } from 'src/app/services/loader.service';
 import { FormGroup, FormControl, FormArray, FormBuilder, Validators } from '@angular/forms';
 import { Categorie } from 'src/app/entities/entities';
 import { UpdateStorageService } from 'src/app/services/update-storage.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { IBingResponse } from 'src/app/entities/entities';
 
 @Component({
   selector: 'app-homepage',
@@ -28,6 +31,7 @@ export class HomepageComponent implements OnInit {
   userForm: FormGroup;
   confirmUpdate: boolean = false;
   fieldTextType: boolean=false;
+  populate = false;
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
@@ -41,7 +45,8 @@ export class HomepageComponent implements OnInit {
     private modalService: NgbModal,
     public loader : LoaderService,
     private fb : FormBuilder,
-    private updateService: UpdateStorageService
+    private updateService: UpdateStorageService,
+    private http: HttpClient,
   ) {
     config.backdrop = 'static';
     config.keyboard = false;
@@ -81,18 +86,44 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.populate=true;
     console.log(this.userService.getUsername());
     console.log(this.userService.getPassword());
 
     this.userForm.controls['username'].setValue(this.userService.getUsername());
     this.userForm.controls['password'].setValue(this.userService.getPassword());
     this.userForm.get('password')?.disable();
+    console.log("Stringify"+JSON.stringify(this.userService.getPreferiti()));
+    let body = {bingSubscriptionKey: environment.bingSubscriptionKey,cognitiveSubscriptionKey : environment.cognitiveSubscriptionKey, lang: 'it', preferiti : JSON.stringify(this.userService.getPreferiti())};
+    this.http.post<any>(environment.populateUrl,body)
+    .subscribe(data => {
+      console.log(data);
+      for(let i=0; i<data.documents.length; i++){
+        let newsToStore : INews[] = [];
+        for(let j = 0; j<data.documents[i].value.length && j< 10 ; j++){
+          newsToStore.push({
+            date: new Date(data.documents[i].value[j].datePublished),
+            name: data.documents[i].value[j].name,
+            description: data.documents[i].value[j].description,
+            provider: {name:data.documents[i].value[j].provider[0].name,type:data.documents[i].value[j].provider[0]._type},
+            url: data.documents[i].value[j].url,
+            category : "provvisorio",
+            sentiment: data.sentiment[i].documents[j].sentiment,
+            sentimentScores: data.sentiment[i].documents[j].confidenceScores,
+          })
+        }
+        this.newsService.storeHomeData(newsToStore);
+        this.news.push(...newsToStore);
+      }
+    }
+  );
   }
   logout() {
     this.userService.logout();
   }
 
   async search() {
+    this.populate=false;
     this.loading = true;
     this.searchService.search(this.searchInput);
     this.news = this.newsService.getNews();
@@ -111,7 +142,6 @@ export class HomepageComponent implements OnInit {
   }
   setActive(buttonName:string){
     this.activeButton = buttonName;
-
   }
   isActive(buttonName:string){
     return this.activeButton === buttonName;

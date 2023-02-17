@@ -50,7 +50,7 @@ module.exports = async function (context, req) {
       });
     });
   await fetch(
-    "https://cpsentimentresourcee.cognitiveservices.azure.com/text/analytics/v3.0/sentiment",
+    "https://cpsentimentresource.cognitiveservices.azure.com/text/analytics/v3.0/sentiment",
     {
       method: "POST",
       headers: {
