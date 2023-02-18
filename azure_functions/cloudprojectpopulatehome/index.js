@@ -14,7 +14,6 @@ module.exports = async function (context, req) {
   let bingSubscriptionKey = context.req.body.bingSubscriptionKey;
   let cognitiveSubscriptionKey = context.req.body.cognitiveSubscriptionKey;
   let category = JSON.parse(context.req.body.preferiti);
-  console.log(category);
   let urls = [];
   let sentimentPromises;
   let lang = context.req.body.lang;
@@ -112,7 +111,7 @@ module.exports = async function (context, req) {
       (element) =>
         new Promise((resolve) => {
           request(
-            "https://cpsentimentresource.cognitiveservices.azure.com/text/analytics/v3.0/sentiment",
+            "https://cpsentimentresourcee.cognitiveservices.azure.com/text/analytics/v3.0/sentiment",
             {
               method: "POST",
               headers: {

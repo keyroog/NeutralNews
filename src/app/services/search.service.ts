@@ -10,18 +10,17 @@ import { environment } from 'src/environments/environment';
 export class SearchService {
   constructor(private http: HttpClient, private newsService: NewsService) {}
 
-  search(searchInput: String) {
+  search(searchInput: String,language: string) {
     let body = {
       search: searchInput,
       bingSubscriptionKey: environment.bingSubscriptionKey,
       cognitiveSubscriptionKey: environment.cognitiveSubscriptionKey,
       cc:'IT',
-      lang: 'it'
+      lang: language,
     };
     this.newsService.clearData();
     this.newsService.setVoid(false);
     this.http.post(environment.searchUrl, body).subscribe((data) => {
-      console.log(data);
       this.newsService.storeData(data);
     });
     return false;
@@ -37,7 +36,6 @@ export class SearchService {
       offset: offset ? offset : 0,
     };
     this.http.post(environment.searchUrl, body).subscribe((data) => {
-      console.log(data);
       this.newsService.storeData(data);
     });
   }

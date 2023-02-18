@@ -20,34 +20,21 @@ export class LoginStorageService {
   checkLogin(username: string, password: string) {
     let body = {'username': username, 'password': password, 'storageAccountKey': environment.storageAccountKey};
     this.http.post<ILikes | boolean>(environment.loginUrl,body)
-      .subscribe(data => {
-        if(typeof data === 'boolean'){
-          alert("Password Errata");
-          console.log('booleano');
-          console.log(data);
-        }else{
-          console.log(data);
-          this.userService.storeUserInformation(data);
-          this.router.navigate(['home']);
+      .subscribe(
+        data => {
+          if(typeof data === 'boolean'){
+            alert("Password Errata");
+          }else{
+            this.userService.storeUserInformation(data);
+            this.router.navigate(['home']);
+          }
+        },
+        error => {
+          //check error status
+          if(error.status == 500){
+            alert("Username Errato");
+          }
         }
-      },
-      (err) => alert("Profilo non trovato"),
-    )
+    );
   }
-
-  /*
-  checkLogin2(username: string, password: string) {
-    let body = {'username': username, 'password': password};
-    this.http.post('https://cloudprojectlogin.azurewebsites.net/api/cloudprojectlogin?code=Vi7AEgQYr_MwGbXv4HrWvnDr-aKGRthorVMBJZYNU1YnAzFuAHNpnA==',body)
-    .subscribe(data => {
-      if(data){
-        this.preferiti = data;
-        for(let object in this.preferiti){
-          console.log(object);
-        }
-      }else{
-        console.log(data)
-      }
-    });
-  } */
 }

@@ -20,17 +20,21 @@ import { IBingResponse } from 'src/app/entities/entities';
   providers: [NgbModalConfig, NgbModal],
 })
 export class HomepageComponent implements OnInit {
-  searchInput!: String;
+  searchInput: String = "";
+  oldPassword = "";
+  selectedLanguage = "it";
   loading = false;
   voidSearch = false;
   updateLoading = false;
   activeButton:string = 'all';
   news: INews[] = [];
+  totalEstimated = 0;
   categorie = Categorie;
   updateEnable = false;
   userForm: FormGroup;
   confirmUpdate: boolean = false;
   fieldTextType: boolean=false;
+  filteredNews: INews[] = [];
   populate = false;
 
   toggleFieldTextType() {
@@ -52,14 +56,13 @@ export class HomepageComponent implements OnInit {
     config.keyboard = false;
     this.userForm = this.fb.group({
       username: ["", [Validators.required]],
-      password: ["", [Validators.required]],
+      password: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
       preferiti: new FormArray([]),
     });
     this.addCheckboxes();
 
     for(let i=0; i<this.categorie.length; i++){
       for(let j=0 ;j<this.userService.getPreferiti().length; j++){
-        console.log(this.userService.getPreferiti()[j])
         if(this.categorie[i].id === this.userService.getPreferiti()[j]){
           this.userForm.controls['preferiti'].get(''+i)?.setValue(true);
         }
@@ -87,17 +90,12 @@ export class HomepageComponent implements OnInit {
 
   ngOnInit(): void {
     this.populate=true;
-    console.log(this.userService.getUsername());
-    console.log(this.userService.getPassword());
-
     this.userForm.controls['username'].setValue(this.userService.getUsername());
     this.userForm.controls['password'].setValue(this.userService.getPassword());
     this.userForm.get('password')?.disable();
-    console.log("Stringify"+JSON.stringify(this.userService.getPreferiti()));
     let body = {bingSubscriptionKey: environment.bingSubscriptionKey,cognitiveSubscriptionKey : environment.cognitiveSubscriptionKey, lang: 'it', preferiti : JSON.stringify(this.userService.getPreferiti())};
     this.http.post<any>(environment.populateUrl,body)
     .subscribe(data => {
-      console.log(data);
       for(let i=0; i<data.documents.length; i++){
         let newsToStore : INews[] = [];
         for(let j = 0; j<data.documents[i].value.length && j< 10 ; j++){
@@ -117,31 +115,48 @@ export class HomepageComponent implements OnInit {
       }
     }
   );
+  this.filteredNews = this.news;
+  this.activeButton='all';
   }
+  
   logout() {
     this.userService.logout();
   }
 
-  async search() {
+  search() {
+    if(this.searchInput === ""){
+      return
+    }
     this.populate=false;
     this.loading = true;
-    this.searchService.search(this.searchInput);
+    this.searchService.search(this.searchInput,this.selectedLanguage);
+    this.totalEstimated = this.newsService.getEstimated();
     this.news = this.newsService.getNews();
+    this.filteredNews = this.news;
+    this.activeButton='all';
   }
 
   async showMore() {
     this.searchService.showMore(this.searchInput, this.news.length);
+    this.news = this.newsService.getNews();
+    if(this.activeButton === 'all'){
+      this.filteredNews = this.news;
+    }else{
+      this.filteredNews = this.news.filter((news) => news.sentiment === this.activeButton);
+    }
   }
 
   open(content:any) {
     this.modalService.open(content, { centered: true });
   }
 
-  filterSelection(filter:string){
-
-  }
   setActive(buttonName:string){
     this.activeButton = buttonName;
+    if(this.activeButton === 'all'){
+      this.filteredNews = this.news;
+    }else{
+      this.filteredNews = this.news.filter((news) => news.sentiment === this.activeButton);
+    }
   }
   isActive(buttonName:string){
     return this.activeButton === buttonName;
@@ -152,17 +167,30 @@ export class HomepageComponent implements OnInit {
   }
   
   updateUser(content:any){
-    console.log(this.userForm.value);
     this.updateEnable = false
     const selectedCategory = this.userForm.value.preferiti
         .map((checked:any, i:number) => checked ? this.categorie[i].id : null)
         .filter((v:any) => v !== null);
-    console.log(JSON.stringify(selectedCategory));
+    if(selectedCategory.length === 0){
+      alert("Seleziona almeno una categoria");
+      this.modalService.dismissAll();
+      return;
+    }
     this.updateService.updateStorage(this.userForm.value.username,this.userForm.value.password,JSON.stringify(selectedCategory),content);
   }
 
   enableUpdate(){
     this.updateEnable = true;
     this.userForm.get('password')?.enable();
+  }
+
+  disableUpdate(){
+    this.userForm.controls['password'].setValue(this.userService.getPassword());
+    this.updateEnable = false;
+    this.userForm.get('password')?.disable();
+  }
+
+  selectLanguage(language:string){
+    this.selectedLanguage=language;
   }
 }

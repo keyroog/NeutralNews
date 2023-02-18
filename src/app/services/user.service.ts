@@ -15,12 +15,9 @@ export class UserService {
 
 
   checkUser(){
-    console.log(localStorage.getItem("username"));
     if(localStorage.getItem("username")!=null){
-      console.log("user logged");
       return true;
     }else{
-      console.log("user NOT LOGGED");
       return false;
     }
   }
@@ -50,7 +47,6 @@ export class UserService {
   }
   
   getPreferiti(){
-    console.log(localStorage.getItem('preferiti'));
     return JSON.parse(localStorage.getItem('preferiti')!);
   }
 }

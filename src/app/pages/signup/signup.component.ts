@@ -36,11 +36,9 @@ export class SignupComponent implements OnInit {
       alert("Le password non coincidono");
       return;
     }else{
-      console.log(this.userSignup.value);
       const selectedCategory = this.userSignup.value.preferiti
         .map((checked:any, i:number) => checked ? this.categorie[i].id : null)
         .filter((v:any) => v !== null);
-      console.log(JSON.stringify(selectedCategory));
       if(selectedCategory.length === 0){
         alert("Please enter at least one preference");
         return;

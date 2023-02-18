@@ -13,8 +13,6 @@ export class NewsService {
   totalEstimatedMatches: number = 0;
 
   storeData(data: any) {
-    console.log("store data");
-    console.log(data);
     let i = 0;
     data.documents.value.forEach((element: any) => {
       this.news.push({
@@ -27,11 +25,9 @@ export class NewsService {
         sentiment: data.sentiment.documents[i].sentiment,
         sentimentScores: data.sentiment.documents[i].confidenceScores,
       });
-      console.log(element.category)
-      this.totalEstimatedMatches = data.documents.totalEstimatedMatches;
       i++;
     });
-    console.log(this.news);
+    this.totalEstimatedMatches = data.documents.totalEstimatedMatches;
   }
 
   storeHomeData(data: any) {

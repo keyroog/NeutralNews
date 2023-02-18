@@ -16,15 +16,10 @@ export class UpdateStorageService {
 
   updateStorage(username: string, password: string,preferiti: string,content:any) {
     let body = {'username': username, 'password': password, 'preferiti': preferiti, 'storageAccountKey': environment.storageAccountKey};
-    console.log(body);
     this.http.post(environment.updateUrl,body)
       .subscribe(data => {
-        console.log(data);
         if(data){
-          console.log("preferiti aggiornati");
           this.modalService.open(content,{ centered: true });
-        }else{
-          console.log("preferiti non aggiornati");
         }
       }
     );

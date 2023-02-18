@@ -19,7 +19,6 @@ export class LoginComponent implements OnInit {
   constructor(private loginStorageService : LoginStorageService,private userService : UserService,private router : Router,private fb:FormBuilder) { }
 
   ngOnInit(): void {
-    console.log("user logged");
     if(this.userService.checkUser()){
       this.router.navigate(['/home']);
     }
@@ -28,7 +27,6 @@ export class LoginComponent implements OnInit {
   login() {
     const usr = this.userForm.value.username;
     const pass = this.userForm.value.password;
-    console.log(usr,pass);
     if(usr && pass)
     this.loginStorageService.checkLogin(usr, pass);
   }

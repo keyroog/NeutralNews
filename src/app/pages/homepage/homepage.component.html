@@ -1,14 +1,14 @@
 <div class="main-container bg-primary">
   <div class="container-sm wrapper" data-aos="fade-in">
     <div class="row mt-1">
-      <div class="col-sm-4 d-flex align-items-center justify-content-center">
+      <div class="col-sm-5 d-flex align-items-center justify-content-center">
         <h1 class="h1 title mt-2">
           <a href="/" class="text-decoration-none text-primary"
             ><span>Neutral News</span></a
           >
         </h1>
       </div>
-      <div class=" col-sm-4">
+      <div class=" col-sm-2">
         <ng-template #content let-c="close" let-d="dismiss">
           <div class="modal-header text-center">
             <h4 class="modal-title" id="modal-basic-title">Pannello Utente</h4>
@@ -65,14 +65,21 @@
               >
                 La password deve essere lunga almeno 8 caratteri
               </div>
-              <div class="d-flex justify-content-end">
+              <div class="d-flex justify-content-between">
                 <button
-                  class="btn btn-primary mt-3 right"
+                  class="btn btn-primary mt-3 float-end"
                   (click)="enableUpdate()"
                   [disabled]="updateEnable"
                 >
                   Modifica Password
                 </button>
+                <button
+                class="btn btn-primary mt-3 float-end"
+                (click)="disableUpdate()"
+                [hidden]="!updateEnable"
+              >
+                Annulla
+              </button>
               </div>
               <hr class="my-4" />
               <h5 class="text-center text-primary">Preferiti</h5>
@@ -209,14 +216,14 @@
           <strong class="text-primary m-0 p-0">Profilo </strong>
         </div>
       </div>
-      <div class="col-sm-4 d-flex align-items-center">
+      <div class="col-sm-5 d-flex align-items-center">
         <div class="input-group rounded">
           <input
             type="search"
             [(ngModel)]="searchInput"
             (keyup.enter)="search()"
             class="form-control"
-            placeholder="Search"
+            placeholder="Cerca"
             aria-label="Search"
             aria-describedby="search-addon"
           />
@@ -224,21 +231,32 @@
             (click)="search()"
             class="btn btn-primary border-0"
             id="search-addon"
+            [disabled]="searchInput.length === 0"
           >
             <i class="bi bi-search"></i>
           </button>
         </div>
+        <div class="col">
+          <div ngbDropdown>
+            <button class="btn btn-warning" id="language" 
+                    ngbDropdownToggle>{{selectedLanguage}}</button>
+            <div ngbDropdownMenu="language">
+              <button ngbDropdownItem (click)="selectLanguage('it')">it</button>
+              <button ngbDropdownItem (click)="selectLanguage('en')">en</button>
+            </div>
+          </div>
+        </div>
       </div>
       <hr class="solid mt-1" />
     </div>
-    <div *ngIf="news.length >= 1 && !this.loader.getLoading()" class="row">
+    <div class="row">
       <div class="col">
-        <h3 class="text-primary">Totale: {{ news.length }}</h3>
+        <h3 class="text-primary text-md-start text-center">Totale: {{ filteredNews.length }}</h3>
       </div>
       <div class="col d-flex">
         <div class="col text-center">
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary w-auto"
             [class.active]="isActive('all')"
             (click)="setActive('all')"
           >
@@ -247,7 +265,8 @@
         </div>
         <div class="col text-center">
           <button
-            class="btn btn-outline-primary"
+          
+            class="btn btn-outline-primary w-100"
             [class.active]="isActive('positive')"
             (click)="setActive('positive')"
           >
@@ -256,7 +275,7 @@
         </div>
         <div class="col text-center">
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary w-100"
             [class.active]="isActive('neutral')"
             (click)="setActive('neutral')"
           >
@@ -265,7 +284,7 @@
         </div>
         <div class="col text-center">
           <button
-            class="btn btn-outline-primary"
+            class="btn btn-outline-primary w-100"
             [class.active]="isActive('negative')"
             (click)="setActive('negative')"
           >
@@ -275,37 +294,27 @@
       </div>
       <hr
         class="solid mt-3"
-        *ngIf="news.length >= 1 && !this.loader.getLoading()"
       />
     </div>
     <div class="row m-0 p-0 content">
       <div
         class="row p-0 m-0"
-        *ngIf="
-          newsService.getVoid() || this.loader.getLoading() || news.length >= 1
-        "
       >
-        <div *ngIf="newsService.getVoid()" class="text-center">
-          <h1>Ops.. Nessun Risultato, Riprova con un'altra parola!</h1>
+        <div *ngIf="this.news.length === 0 && !this.loader.getLoading()" class="text-center">
+          <h1 class="mt-5">Ops.. Nessun Risultato, Riprova con un'altra parola!</h1>
         </div>
         <div
-          *ngFor="let new of news; let i = index"
+          *ngFor="let new of filteredNews; let i = index"
           class="card-row"
           style="margin: 0; padding: 0"
         >
           <div
             class="row"
-            *ngIf="
-              this.activeButton === 'all' || new.sentiment === this.activeButton
-            "
           >
             <app-news-card [news]="new" [index]="i"></app-news-card>
           </div>
           <div
             class="row"
-            *ngIf="
-              this.activeButton === 'all' || new.sentiment === this.activeButton
-            "
           >
             <hr class="solid" style="display: block" />
           </div>
@@ -314,7 +323,7 @@
           <div
             class="text-center"
             *ngIf="
-              news.length >= 1 && newsService.getEstimated() > news.length + 10
+              filteredNews.length >= 1 && newsService.getEstimated() > filteredNews.length + 10
             "
           >
             <button (click)="showMore()" class="btn btn-primary center mb-1">
@@ -322,21 +331,15 @@
             </button>
           </div>
           <div
-            class="text-center"
-            *ngIf="
-              news.length >= 1 &&
-              newsService.getEstimated() < news.length + 10 &&
-              this.populate
-            "
-          >
-            <button
-              (click)="showMore()"
-              disabled="true"
-              class="btn btn-primary center mb-3"
-            >
-              Non c'e altro..
-            </button>
-          </div>
+          class="text-center"
+          *ngIf="
+            filteredNews.length >= 1 && newsService.getEstimated() < filteredNews.length + 10
+          "
+        >
+          <button (click)="showMore()" class="btn btn-primary center mb-1" disabled=true>
+            Non c'e altro
+          </button>
+        </div>
         </div>
       </div>
     </div>

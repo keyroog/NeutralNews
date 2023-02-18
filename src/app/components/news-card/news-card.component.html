@@ -1,39 +1,41 @@
 <div class="wrapper">
-  <div class="col">
     <div class="card mb-3">
-      <div class="card-header"> 
-        <div class="col"><h3>{{ news.name }}</h3></div>
-        <div class="col" *ngIf="news.category && news.category != 'provvisorio'">
-          <small class="text-info">
-          Categoria:
-          </small>
+      <div class="card-header">
+        <div class="col">
+          <h3>{{ news.name }}</h3>
+        </div>
+        <div
+          class="col"
+          *ngIf="news.category && news.category != 'provvisorio'"
+        >
+          <small class="text-info"> Categoria: </small>
           <span class="text-info">
             <span *ngIf="news.category === 'Business'">
-              {{news.category}}
+              {{ news.category }}
               <i class="bi bi-briefcase"></i>
             </span>
             <span *ngIf="news.category === 'Entertainment'">
-              {{news.category}}
+              {{ news.category }}
               <i class="bi bi-controller"></i>
             </span>
             <span *ngIf="news.category === 'Culture'">
-              {{news.category}}
+              {{ news.category }}
               <i class="bi bi-palette"></i>
             </span>
             <span *ngIf="news.category === 'ScienceAndTechnology'">
-              {{news.category}}
+              {{ news.category }}
               <i class="bi bi-laptop"></i>
             </span>
             <span *ngIf="news.category === 'Sports'">
-              {{news.category}}
+              {{ news.category }}
               <i class="bi bi-bicycle"></i>
             </span>
             <span *ngIf="news.category === 'World'">
-              {{news.category}}
+              {{ news.category }}
               <i class="bi bi-globe"></i>
             </span>
             <span *ngIf="news.category === 'Education'">
-              {{news.category}}
+              {{ news.category }}
               <i class="bi bi-book"></i>
             </span>
             <span *ngIf="news.category === 'No category'">
@@ -42,10 +44,33 @@
             </span>
           </span>
         </div>
+        <div class="mt-3 mb-3" *ngIf="news.sentiment === 'positive'">
+          <span class="badge badge-green">Positivo</span>
+          <span> - </span>
+          <span class="badge badge-green">{{
+            news.sentimentScores.positive | percent
+          }}</span>
+        </div>
+        <div class="mt-3 mb-3" *ngIf="news.sentiment === 'negative'">
+          <span class="badge badge-red">Negativo</span>
+          <span> - </span>
+          <span class="badge badge-red">{{
+            news.sentimentScores.negative | percent
+          }}</span>
+        </div>
+        <div class="mt-3 mb-3" *ngIf="news.sentiment === 'neutral'">
+          <span class="badge badge-grey">Neutrale</span>
+          <span> - </span>
+          <span class="badge badge-grey">{{
+            news.sentimentScores.neutral | percent
+          }}</span>
+        </div>
       </div>
       <div class="card-body">
-        <p class="card-text">{{ news.description }}</p>
-        <a class="btn btn-primary float-end" [href]="news.url" target="_blank">Leggi la notizia</a>
+        <p class="card-text">{{ news.description }}...</p>
+        <a class="btn btn-primary float-end" [href]="news.url" target="_blank"
+          >Leggi la notizia</a
+        >
       </div>
       <div class="card-footer cardFooter">
         <p>
@@ -58,45 +83,4 @@
         </p>
       </div>
     </div>
-  </div>
-  <div
-    class="col-2 text-center flex-column align-items-center m-3 d-flex align-items-center justify-content-center"
-  >
-    <div class="row">
-      <div *ngIf="news.sentiment === 'positive'">
-        <div>
-          <h3 class="text-center text-green">
-            <strong> <i class="bi bi-emoji-smile"></i></strong>
-          </h3>
-        </div>
-        <div><h5 class="text-green">Positivo</h5></div>
-      </div>
-      <div *ngIf="news.sentiment === 'negative'">
-        <div>
-          <h3 class="text-center text-red">
-            <strong> <i class="bi bi-emoji-frown"></i></strong>
-          </h3>
-        </div>
-        <div><h5 class="text-red">Negativo</h5></div>
-      </div>
-      <div *ngIf="news.sentiment === 'neutral'">
-        <div>
-          <h3 class="text-center text-grey">
-            <strong> <i class="h3 bi bi-emoji-neutral"></i></strong>
-          </h3>
-        </div>
-        <div><h5 class="text-grey">Neutrale</h5></div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col text-center text-green score-typo" style="margin: 5px;padding:0">
-        {{ news.sentimentScores.positive | percent }}
-      </div>
-      <div class="col text-center text-grey score-typo" style="margin:5px;padding:0">
-        {{ news.sentimentScores.neutral | percent }}
-      </div>
-      <div class="col text-center text-red score-typo" style="margin:5px;padding:0">
-        {{ news.sentimentScores.negative | percent }}
-      </div>
-  </div>
 </div>

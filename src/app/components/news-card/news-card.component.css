@@ -8,11 +8,6 @@
   object-fit: cover;
 }
 
-.wrapper{
-  display: flex;
-  justify-content: space-between;
-}
-
 .sentiment-container{
   display: flex;
   align-items: center;
@@ -34,6 +29,23 @@
 
 .score-typo{
   font-size: 14px;
+}
+
+.emoji{
+  font-size: 50px;
+}
+
+
+.badge-green{
+  background-color: rgb(0, 201, 0);
+}
+
+.badge-red{
+  background-color: red
+}
+
+.badge-grey{
+  background-color: grey;
 }
 
 .emoji-container{

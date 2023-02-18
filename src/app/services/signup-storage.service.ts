@@ -24,7 +24,6 @@ export class SignupStorageService {
     }
     this.http.post(environment.signupUrl,body)
       .subscribe(data => {
-        console.log(data);
         if(data){
           alert('Signup successful');
           this.router.navigate(["login"]);

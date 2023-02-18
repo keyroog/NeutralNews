@@ -10,7 +10,8 @@ export const environment = {
   loginUrl : '',
   signupUrl: '',
   updateUrl: '',
-  searchUrl: ''
+  searchUrl: '',
+  populateUrl: '',
 };
 
 /*
