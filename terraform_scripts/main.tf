@@ -1,14 +1,26 @@
-resource "random_pet" "rg_name" {
-  prefix = var.resource_group_name_prefix
+terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "~> 3.0.2"
+    }
+  }
+
+  required_version = ">= 1.1.0"
 }
 
+provider "azurerm" {
+  features {}
+}
+
+
 resource "azurerm_resource_group" "rg" {
-  location = var.resource_group_location
-  name     = random_pet.rg_name.id
+  name     = "NeutralNews"
+  location = "westeurope"
 }
 
 resource "azurerm_storage_account" "cloudprojectstorage" {
-  name                     = "cpstorageresource"
+  name                     = "neutralnewsstorage"
   resource_group_name      = azurerm_resource_group.rg.name
   location                 = azurerm_resource_group.rg.location
   account_tier             = "Standard"
@@ -20,27 +32,8 @@ resource "azurerm_storage_table" "cloudprojecttablestorage" {
   storage_account_name = azurerm_storage_account.cloudprojectstorage.name
 }
 
-/*resource "azurerm_cognitive_account" "cloudprojectbingsearch" {
-  name                = "cpbingresource"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  kind                = "Bing.Search"
-
-  sku_name = "F0"
-}
-
-resource "azurerm_cognitive_account" "cloudprojectsentiment" {
-  name                = "cpsentimentresource"
-  location            = azurerm_resource_group.rg.location
-  resource_group_name = azurerm_resource_group.rg.name
-  kind                = "CognitiveServices"
-
-  sku_name = "F0"
-}*/
-
-
 resource "azurerm_service_plan" "cloudprojectappplan" {
-  name                = "cpappresource"
+  name                = "neutralnewsappplan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   os_type = "Windows"
@@ -48,7 +41,7 @@ resource "azurerm_service_plan" "cloudprojectappplan" {
 }
 
 resource "azurerm_windows_function_app" "cloudprojectfunctionampp" {
-  name                       = "cpfunctionresource"
+  name                       = "neutralnewsfunctionapp"
   location                   = azurerm_resource_group.rg.location
   resource_group_name        = azurerm_resource_group.rg.name
   service_plan_id    = azurerm_service_plan.cloudprojectappplan.id
@@ -59,4 +52,13 @@ resource "azurerm_windows_function_app" "cloudprojectfunctionampp" {
       node_version="~16"
     }
   }
+}
+
+resource "azurerm_cognitive_account" "cognitiveservice" {
+  name                = "neutralnewscognitiveservice"
+  location            = azurerm_resource_group.rg.location
+  resource_group_name = azurerm_resource_group.rg.name
+  kind                = "TextAnalytics"
+
+  sku_name = "F0"
 }

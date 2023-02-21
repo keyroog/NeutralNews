@@ -23,7 +23,7 @@
         <div class=""><p class="description">
           Nessuna e-mail da confermare, inserisci Username e Password e parti
           subito!
-        </p></div> 
+        </p></div>
         <div class=" form-group">
           <form [formGroup]="userSignup">
             <div class="form-floating mb-4 mt-2">
@@ -47,9 +47,17 @@
             <div
             class="alert alert-danger"
             role="alert"
-            *ngIf="userSignup.get('password')?.value.length < 8"
+            *ngIf="!userSignup.get('password')?.valid"
           >
-            La password deve essere lunga almeno 8 caratteri
+          <div *ngIf="userSignup.get('password')?.errors?.['required']">
+            La password è obbligatoria.
+          </div>
+          <div *ngIf="userSignup.get('password')?.errors?.['minlength']">
+            La password deve essere lunga almeno 8 caratteri.
+          </div>
+          <div *ngIf="userSignup.get('password')?.errors?.['pattern']">
+            La password deve contenere 1 Maiuscola ed 1 Numero.
+          </div>
           </div>
               <div class="m-3">
                 <p class="h5">

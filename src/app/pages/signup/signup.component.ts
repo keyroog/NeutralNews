@@ -40,19 +40,18 @@ export class SignupComponent implements OnInit {
         .map((checked:any, i:number) => checked ? this.categorie[i].id : null)
         .filter((v:any) => v !== null);
       if(selectedCategory.length === 0){
-        alert("Please enter at least one preference");
+        alert("Inserisci almeno 1 preferenza");
         return;
       }
-      let valueToPass = JSON.stringify(selectedCategory);
-      this.signupService.signup(this.userSignup.value.username,this.userSignup.value.password,valueToPass);
+      this.signupService.signup(this.userSignup.value.username,this.userSignup.value.password,JSON.stringify(selectedCategory));
     }
   }
 
   constructor(private fb:FormBuilder,private signupService : SignupStorageService) {
     this.userSignup = this.fb.group({
       username: ["", [Validators.required]],
-      password: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
-      repeatPassword: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      password: ["", [Validators.required,Validators.minLength(8),Validators.maxLength(20),Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')]],
+      repeatPassword: ["", [Validators.required,Validators.minLength(8),Validators.maxLength(20),Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')]],
       preferiti: new FormArray([]),
     });
 

@@ -56,7 +56,7 @@ export class HomepageComponent implements OnInit {
     config.keyboard = false;
     this.userForm = this.fb.group({
       username: ["", [Validators.required]],
-      password: ["", [Validators.required, Validators.minLength(8), Validators.maxLength(20)]],
+      password: ["", [Validators.required,Validators.minLength(8),Validators.maxLength(20),Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]+$')]],
       preferiti: new FormArray([]),
     });
     this.addCheckboxes();

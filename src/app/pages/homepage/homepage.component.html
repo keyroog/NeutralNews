@@ -64,9 +64,17 @@
               <div
                 class="alert alert-danger"
                 role="alert"
-                *ngIf="userForm.get('password')?.value.length < 8"
+                *ngIf="!userForm.get('password')?.valid && updateEnable"
               >
-                La password deve essere lunga almeno 8 caratteri
+              <div *ngIf="userForm.get('password')?.errors?.['required']">
+                La password è obbligatoria.
+              </div>
+              <div *ngIf="userForm.get('password')?.errors?.['minlength']">
+                La password deve essere lunga almeno 8 caratteri.
+              </div>
+              <div *ngIf="userForm.get('password')?.errors?.['pattern']">
+                La password deve contenere 1 Maiuscola ed 1 Numero.
+              </div>
               </div>
               <div class="d-flex justify-content-between">
                 <button

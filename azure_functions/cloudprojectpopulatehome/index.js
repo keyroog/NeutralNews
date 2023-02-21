@@ -1,13 +1,6 @@
 const https = require("https");
 const request = require("request");
 
-let sentimentHost = "cloudprojectcognitive.cognitiveservices.azure.com";
-let sentimentPath = "/text/analytics/v3.0/sentiment";
-
-let host = "api.bing.microsoft.com";
-let path = "/v7.0/news/search";
-let term = "Microsoft";
-
 module.exports = async function (context, req) {
   documents = [];
   resultDocuments = [];
@@ -17,20 +10,7 @@ module.exports = async function (context, req) {
   let urls = [];
   let sentimentPromises;
   let lang = context.req.body.lang;
-  /*await fetch(
-        "https://api.bing.microsoft.com/v7.0/news?count=10&category=sports+health",
-        {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "Ocp-Apim-Subscription-Key": bingSubscriptionKey,
-          },
-        }
-      ) // 3
-        .then((response) => response.json())
-        .then((response) => { console.log(response); });
-    */
+
   for (const cat of category) {
     urls.push({
       url:
@@ -46,29 +26,6 @@ module.exports = async function (context, req) {
       },
     });
   }
-
-  /*(async () => {     
-        const promises = urls.map((url) =>
-            fetch(
-                url.url,
-                {method : url.method, headers : url.headers}
-            ).then((response) => response.json())
-        );
-        const data = await Promise.all(promises);
-        console.log(data);
-    })();
-
-    let processedRequests = 0
-\   
-
-    let promiseResources = []
-    
-    for (let i = 0; i < urls.length; i++) {
-        const prom = new Promise((resolve, reject) => {
-            fetch(urls[i].url,{method : urls[i].method, headers : urls[i].headers}).then(response => response.json())
-        });
-        promiseResources.push(prom);
-    }*/
 
   const promises = urls.map(
     (element) =>
@@ -111,7 +68,7 @@ module.exports = async function (context, req) {
       (element) =>
         new Promise((resolve) => {
           request(
-            "https://cpsentimentresourcee.cognitiveservices.azure.com/text/analytics/v3.0/sentiment",
+            "https://westeurope.api.cognitive.microsoft.com/text/analytics/v3.0/sentiment",
             {
               method: "POST",
               headers: {

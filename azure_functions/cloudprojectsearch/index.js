@@ -65,7 +65,7 @@ module.exports = async function (context, req) {
     newpromise = new Promise((resolve, reject) => {
       request(
         {
-          url: "https://cpsentimentresourcee.cognitiveservices.azure.com/text/analytics/v3.0/sentiment",
+          url: "https://westeurope.api.cognitive.microsoft.com/text/analytics/v3.0/sentiment",
           method: "POST",
           headers: {
             Accept: "application/json",

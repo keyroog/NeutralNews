@@ -2,7 +2,7 @@ const { TableClient, AzureNamedKeyCredential } = require("@azure/data-tables");
 
 
 module.exports = async function (context, req) {
-    const account = "cpstorageresource";
+    const account = "neutralnewsstorage";
     const storageAccountKey = context.req.body.storageAccountKey;
     const tableName = "users";
     const credential = new AzureNamedKeyCredential(account, storageAccountKey);
