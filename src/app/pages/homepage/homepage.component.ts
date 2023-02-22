@@ -137,7 +137,7 @@ export class HomepageComponent implements OnInit {
   }
 
   async showMore() {
-    this.searchService.showMore(this.searchInput, this.news.length);
+    this.searchService.showMore(this.searchInput, this.news.length, this.selectedLanguage);
     this.news = this.newsService.getNews();
     if(this.activeButton === 'all'){
       this.filteredNews = this.news;

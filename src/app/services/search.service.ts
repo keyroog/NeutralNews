@@ -26,13 +26,13 @@ export class SearchService {
     return false;
   }
 
-  showMore(searchInput: String, offset: number) {
+  showMore(searchInput: String, offset: number,language: string) {
     let body = {
       search: searchInput,
       bingSubscriptionKey: environment.bingSubscriptionKey,
       cognitiveSubscriptionKey: environment.cognitiveSubscriptionKey,
       cc:'IT',
-      lang: 'it',
+      lang: language,
       offset: offset ? offset : 0,
     };
     this.http.post(environment.searchUrl, body).subscribe((data) => {
