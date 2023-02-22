@@ -193,4 +193,8 @@ export class HomepageComponent implements OnInit {
   selectLanguage(language:string){
     this.selectedLanguage=language;
   }
+
+  refresh(): void {
+    window.location.reload();
+  }
 }
